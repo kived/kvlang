@@ -1,0 +1,35 @@
+
+#:kivy 1.0
+#hello comment
+
+
+
+<ClassRule>:
+	int: 1
+	float: 1.
+	float: .1
+	float: 1.1
+	string: 'hi'
+	string: "hi"
+	id: id
+
+	Child:
+		canvas:
+			Rectangle:
+				pos: self.pos
+				size: self.size
+		Child2
+
+<-ResetRule>:
+	Child:
+		Child2:
+			Child3:
+			Child4:
+			Child5
+
+<MultiClass1,MultiClass2>:
+	a: b
+
+[Tmpl@Widget1+Widget2]:
+
+Widget
