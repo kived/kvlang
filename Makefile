@@ -8,6 +8,7 @@ compilegrammar:
 
 clean:
 	find . -name '*.pyc' -delete
+	find . -name '*.kv.out' -delete
 	cd g; $(MAKE) clean
 
 test:
