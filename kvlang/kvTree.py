@@ -46,8 +46,12 @@ class Node(CommonTree):
 		self.toString = self.__str__
 		super(Node, self).__init__(payload)
 		self.source = self._source
+		self.sourcetext = None
 	
 	def get_text(self):
+		if self.sourcetext:
+			return self.sourcetext
+		
 		try:
 			return self.source.get_text(self)
 		except Exception, e:
@@ -81,6 +85,9 @@ class CommentNode(TextNode):
 
 class WidgetLikeNode(Node):
 	
+	def get_name(self):
+		return '<none>'
+	
 	def properties(self):
 		for child in self.getChildren():
 			if isinstance(child, PropertyNode):
@@ -95,14 +102,27 @@ class WidgetLikeNode(Node):
 		for child in self.getChildren():
 			if isinstance(child, CanvasNode):
 				yield child
+	
+	def get_properties(self):
+		return list(self.properties())
+	
+	def get_widgets(self):
+		return list(self.widgets())
+	
+	def get_canvasblocks(self):
+		return list(self.canvasblocks())
 
 class WidgetNode(TextNode, WidgetLikeNode):
-	pass
+	def get_name(self):
+		return str(self)
 
 class ClassRuleNode(WidgetLikeNode):
 	def __init__(self, token, classes):
 		super(ClassRuleNode, self).__init__(token)
 		self.classes = classes
+	
+	def get_name(self):
+		return str(self.classes)
 
 	def __str__(self):
 		# if self.classes.text == 'CLASSLIST':

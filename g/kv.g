@@ -101,11 +101,11 @@ tokens {
 }
 
 @parser::init {	
-	self.has_root = False
-	def found_root():
-		if self.has_root:
+	self.root_node = None
+	def found_root(node):
+		if self.root_node:
 			raise DuplicateRootError(self.input)
-		self.has_root = True
+		self.root_node = node
 	self.found_root = found_root
 }
 
@@ -128,7 +128,7 @@ comment
     : COMMENTTEXT NEWLINE -> ^(COMMENT<CommentNode>[$COMMENTTEXT]) ;
 
 root_rule
-	:	widget {self.found_root()};
+	:	w=widget {self.found_root($w.tree)};
 
 widget 
 	:	WNAME COLON? NEWLINE -> ^(WIDGET<WidgetNode>[$WNAME])

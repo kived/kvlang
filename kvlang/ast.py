@@ -1,5 +1,6 @@
 from time import time
 import antlr3
+from antlr3.tree import CommonTree
 from kivy.clock import Clock
 
 from kivy.event import EventDispatcher
@@ -8,7 +9,7 @@ from kivy.properties import StringProperty, AliasProperty, ObjectProperty, Numer
 
 from kvlang.kvParser import kvParser
 from kvlang.kvTokenLexer import kvTokenLexer
-from kvlang.kvTree import Node
+from kvlang.kvTree import Node, WidgetLikeNode, PropertyNode, PythonNode, CanvasNode, WidgetNode
 
 
 def parsestring(kvstring):
@@ -23,7 +24,7 @@ def parsestring(kvstring):
 	result = parser.kvfile()
 	finish_time = time()
 	Logger.debug('kvlang: parsed kv file in %0.4fs' % (finish_time - start_time))
-	return tokens, result
+	return tokens, result, parser.root_node
 
 
 class kvOutput(object):
@@ -136,16 +137,22 @@ class AST(EventDispatcher):
 	def __init__(self, **kwargs):
 		self.token_stream = None
 		self.result = None
+		self.root_node = None
+		self.tree = None
 		self.tokens = []
 		
 		super(AST, self).__init__(**kwargs)
 		
 		self.register_event_type('on_generate')
 		self.register_event_type('on_compile')
+		self.register_event_type('on_tree_changed')
 		
 		self._generate_ast_timer = None
 		self._generate_ast_trigger = Clock.create_trigger(self._generate_ast_schedule)
 		self.bind(source=self._generate_ast_trigger)
+		
+		self.generate_ast = Clock.create_trigger(self._generate_ast)
+		self.dispatch_tree_changed = Clock.create_trigger(self._dispatch_tree_changed)
 		
 		if self.source:
 			self._generate_ast()
@@ -156,8 +163,16 @@ class AST(EventDispatcher):
 	def on_compile(self, output):
 		pass
 	
-	def load(self, filename):
-		self.filename = filename
+	def on_tree_changed(self, tree):
+		pass
+	
+	def load(self, filename=None, source=None):
+		if filename:
+			self.filename = filename
+		elif source:
+			self.filename = None
+			self.source = source
+			
 	
 	def _load(self):
 		with open(self.filename) as f:
@@ -169,12 +184,110 @@ class AST(EventDispatcher):
 		self._generate_ast_timer = Clock.schedule_once(self._generate_ast, self.generate_delay / 1000.)
 	
 	def _generate_ast(self, *_):
-		self.token_stream, self.result = self.parser(self.source)
+		self.token_stream, self.result, self.root_node = self.parser(self.source)
 		self.tree = self.result.tree
 		self.tokens = self.token_stream.getTokens()
+		
+		fail_root = None
+		if not self.root_node:
+			try:
+				if self.tree.get_name() == 'RootWidget':
+					self.root_node = self.tree
+			except Exception:
+				pass
+			
+			if not self.root_node:
+				for child in self.tree.getChildren():
+					if isinstance(child, WidgetLikeNode):
+						fail_root = child
+						if child.get_name() == 'RootWidget':
+							self.root_node = child
+							break
+				if fail_root and not self.root_node:
+					self.root_node = fail_root
+		
+		Logger.debug('kvlang: root node: %s' % str(self.root_node))
+		
 		self.dispatch('on_generate', self.tree)
 	
 	def compile(self):
 		output = str(self.compiler(self.tree, self.tokens, self.source))
 		self.dispatch('on_compile', output)
 		return output
+	
+	def swap_node(self, node, index):
+		if node and node.parent:
+			parent = node.parent
+			if index < 0 or index >= parent.getChildCount():
+				raise IndexError(index)
+			
+			previndex = node.childIndex
+			dest = parent.getChild(index)
+			
+			parent.setChild(index, node)
+			parent.setChild(previndex, dest)
+			
+			self.dispatch_tree_changed()
+	
+	def shift_node(self, node, index):
+		if node and node.parent:
+			parent = node.parent
+			
+			if index < 0 or index >= parent.getChildCount():
+				raise IndexError(index)
+			
+			children = parent.children[:]
+			children.remove(node)
+			children = children[:index] + [node] + children[index:]
+			parent.children = children
+			parent.freshenParentAndChildIndexes()
+			
+			self.dispatch_tree_changed()
+	
+	def _dispatch_tree_changed(self, *_):
+		self.dispatch('on_tree_changed', self.tree)
+	
+	def move_node(self, node, parent, index=None):
+		if node and parent:
+			if node.parent:
+				node.parent.deleteChild(node.childIndex)
+			parent.addChild(node)
+			
+			if index:
+				self.shift_node(node, index)
+			
+			self.dispatch_tree_changed()
+	
+	def widget_add_property(self, node, key, value):
+		if node and key:
+			if not isinstance(node, WidgetLikeNode):
+				raise ValueError('node <%s> is not widget-like' % str(node))
+			
+			keytoken = antlr3.ClassicToken(text=key)
+			keynode = CommonTree(keytoken)
+			valnode = PythonNode(None, None)
+			valnode.sourcetext = value
+			propnode = PropertyNode(None, keynode, valnode)
+			node.addChild(propnode)
+			
+			index = None
+			i = 0
+			count = node.getChildCount()
+			while i < count:
+				if isinstance(node.getChild(i), (WidgetNode, CanvasNode)):
+					index = i
+					break
+				i += 1
+			
+			if index:
+				self.shift_node(propnode, index)
+			
+			self.dispatch_tree_changed()
+	
+	def remove_node(self, node, remove_root=False):
+		if node:
+			if node is not self.root_node and node.parent:
+				node.parent.deleteChild(node.childIndex)
+				self.dispatch_tree_changed()
+	
+	

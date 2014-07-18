@@ -63,12 +63,33 @@ BoxLayout:
 				size_hint_y: None
 				height: max(self.minimum_height, sv_source_text.height)
 				readonly: source_edit.state == 'normal'
-		ScrollView:
-			TreeView:
-				id: treeview
-				hide_root: True
-				height: self.minimum_height
+		BoxLayout:
+			orientation: 'vertical'
+			
+			BoxLayout:
+				orientation: 'horizontal'
 				size_hint_y: None
+				height: sp(64)
+				
+				Button:
+					id: btn_moveup
+					text: '^'
+				Button:
+					id: btn_movedown
+					text: 'v'
+				Button:
+					id: btn_addprop
+					text: '+'
+				Button:
+					id: btn_removenode
+					text: '-'
+			
+			ScrollView:
+				TreeView:
+					id: treeview
+					hide_root: True
+					height: self.minimum_height
+					size_hint_y: None
 		ScrollView:
 			id: sv_output_text
 			TextInput:
@@ -117,6 +138,7 @@ class AstApp(App):
 		super(AstApp, self).__init__()
 		self.ast_file = filename
 		self.ast = AST()
+		self.selected = None
 	
 	def build(self):
 		root = Builder.load_string(root_kv.format(self.ast_file))
@@ -130,13 +152,54 @@ class AstApp(App):
 		self.ast.bind(on_compile=lambda _, output: setattr(root.ids.output_text, 'text', output))
 		self.ast.bind(on_compile=self.save_outfile)
 		
+		self.ast.bind(on_tree_changed=self.refresh)
+		
 		Clock.schedule_once(self.load)
 		
 		root.ids.treeview.bind(selected_node=self.update_selection)
+		
+		root.ids.btn_movedown.bind(on_press=lambda *_: self.move_node(1))
+		root.ids.btn_moveup.bind(on_press=lambda *_: self.move_node(-1))
+		root.ids.btn_addprop.bind(on_press=self.add_property)
+		root.ids.btn_removenode.bind(on_press=self.remove_node)
+		
 		return root
 	
+	def refresh(self, *_):
+		self.selected = None
+		buildtreeview(self.ast.tree, self.root.ids.treeview)
+		self.ast.compile()
+	
+	def move_node(self, dir):
+		if self.selected:
+			tree = self.selected.tree_node
+			if tree.parent:
+				parent = tree.parent
+				count = parent.getChildCount()
+				if count > 1:
+					index = tree.childIndex
+					destindex = index + dir
+					if destindex < 0:
+						destindex = count - 1
+					elif destindex >= count:
+						destindex = 0
+					self.ast.shift_node(tree, destindex)
+	
+	def add_property(self, *_):
+		if self.selected:
+			try:
+				key = 'prop'
+				value = "'val'"
+				self.ast.widget_add_property(self.selected.tree_node, key, value)
+			except ValueError, e:
+				print str(e)
+	
+	def remove_node(self, *_):
+		if self.selected:
+			self.ast.remove_node(self.selected.tree_node)
+	
 	def load(self, _dt):
-		self.ast.load(self.ast_file)
+		self.ast.load(filename=self.ast_file)
 	
 	def save_outfile(self, ast, output):
 		ast.unbind(on_compile=self.save_outfile)
@@ -152,20 +215,22 @@ class AstApp(App):
 		sv.update_from_scroll()
 	
 	def update_selection(self, _, selection):
-		assert isinstance(selection, AstNode)
-		node = selection.tree_node
-		textrange = node.get_textrange()
-		if textrange:
-			st = self.root.ids.source_text
-			st.select_text(*textrange)
-			self.update_scroll(self.root.ids.sv_source_text, st)
-		
-		try:
-			ot = self.root.ids.output_text
-			ot.select_text(node.output_start, node.output_stop)
-			self.update_scroll(self.root.ids.sv_output_text, ot)
-		except Exception:
-			pass
+		if selection:
+			assert isinstance(selection, AstNode)
+			self.selected = selection
+			node = selection.tree_node
+			textrange = node.get_textrange()
+			if textrange:
+				st = self.root.ids.source_text
+				st.select_text(*textrange)
+				self.update_scroll(self.root.ids.sv_source_text, st)
+			
+			try:
+				ot = self.root.ids.output_text
+				ot.select_text(node.output_start, node.output_stop)
+				self.update_scroll(self.root.ids.sv_output_text, ot)
+			except Exception:
+				pass
 	
 
 if __name__ == '__main__':
