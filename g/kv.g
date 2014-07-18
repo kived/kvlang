@@ -104,7 +104,7 @@ tokens {
 	self.has_root = False
 	def found_root():
 		if self.has_root:
-			raise RuntimeError()
+			raise DuplicateRootError(self.input)
 		self.has_root = True
 	self.found_root = found_root
 }

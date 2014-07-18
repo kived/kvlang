@@ -1,5 +1,10 @@
-from antlr3 import CommonToken
+from antlr3 import CommonToken, RecognitionException, MismatchedTokenException, EOF
 from antlr3.tree import CommonTree
+
+
+class DuplicateRootError(MismatchedTokenException):
+	def __init__(self, token):
+		super(DuplicateRootError, self).__init__(EOF, token)
 
 
 def gettextrange(tree, tokens):
@@ -18,29 +23,45 @@ def gettextrange(tree, tokens):
 	return tokens[tstart].start, tokens[tstop].stop + 1
 
 
+class Source(object):
+	def __init__(self, tokens, source):
+		self.tokens = tokens
+		self.source = source
+	
+	def get_textrange(self, tree):
+		return gettextrange(tree, self.tokens)
+	
+	def get_text(self, tree):
+		textrange = self.get_textrange(tree)
+		if textrange:
+			return self.source[textrange[0]:textrange[1]]
+		return ''
+
+
 class Node(CommonTree):
-	_tokens = None
+	_source = None
 	
 	def __init__(self, token):
 		payload = CommonToken(token, '')
 		self.toString = self.__str__
 		super(Node, self).__init__(payload)
+		self.source = self._source
 	
-	@classmethod
-	def get_tokens(cls):
-		return Node._tokens
+	def get_text(self):
+		try:
+			return self.source.get_text(self)
+		except Exception, e:
+			return str(e)
 	
+	def get_textrange(self):
+		try:
+			return self.source.get_textrange(self)
+		except Exception, e:
+			return None
+
 	@classmethod
-	def set_tokens(cls, tokens):
-		Node._tokens = tokens
-	
-	@classmethod
-	def get_text(cls, start, stop):
-		return Node._text[start:stop]
-	
-	@classmethod
-	def set_text_source(cls, source):
-		Node._text = source
+	def set_source(cls, tokens, source):
+		Node._source = Source(tokens, source)
 
 class TextNode(Node):
 	def __init__(self, token, text):
@@ -59,9 +80,6 @@ class CommentNode(TextNode):
 	pass
 
 class WidgetLikeNode(Node):
-	# def __init__(self, token):
-	# 	super(WidgetLikeNode, self).__init__(token)
-	# 	
 	
 	def properties(self):
 		for child in self.getChildren():
@@ -80,12 +98,6 @@ class WidgetLikeNode(Node):
 
 class WidgetNode(TextNode, WidgetLikeNode):
 	pass
-	# def __init__(self, token, name):
-	# 	super(WidgetNode, self).__init__(token, name)
-	# 	self.namenode = name
-	# 
-	# def __str__(self):
-	# 	return str(self.namenode.text)
 
 class ClassRuleNode(WidgetLikeNode):
 	def __init__(self, token, classes):
@@ -130,10 +142,7 @@ class PythonNode(Node):
 		self.codetree = codetree
 	
 	def __str__(self):
-		textrange = gettextrange(self, self.get_tokens())
-		if textrange:
-			return self.get_text(*textrange)
-		return ''
+		return self.get_text()
 
 class CanvasNode(TextNode):
 	pass
