@@ -198,8 +198,11 @@ canvas
 	:	CANVAS COLON canvas_body -> ^(CANVASRULE<CanvasNode>[$CANVAS] canvas_body);
 
 prop
-	: NAME COLON WS* v=prop_value NEWLINE -> ^(PROPERTY<PropertyNode>[$NAME,$v.tree]) 
-	| NAME COLON WS* NEWLINE INDENT v=prop_value NEWLINE DEDENT -> ^(PROPERTY<PropertyNode>[$NAME,$v.tree]);
+	: NAME COLON WS* p=property_body -> ^(PROPERTY<PropertyNode>[$NAME,$p.tree])
+	| NAME COLON WS* p=prop_value NEWLINE -> ^(PROPERTY<PropertyNode>[$NAME,$p.tree]) ;
+
+property_body
+	: NEWLINE! INDENT! prop_value (NEWLINE! prop_value)* DEDENT! ;
 
 prop_value
 	:	p=python -> ^(PYTHON<PythonNode>[$p.tree]);
@@ -207,13 +210,21 @@ prop_value
 /*
  * Python parser rules
  */
-python 
+python
+	:   simple_stmt
+	|   compound_stmt ;
+
+simple_stmt
 	:	small_stmt (options {greedy=true;}:SEMI small_stmt)* (SEMI)? ;
 
 small_stmt 
 	:	expr_stmt
-	|	raise_stmt
-	|	yield_stmt ;
+	|   print_stmt
+	|   del_stmt
+	|   pass_stmt
+	|   flow_stmt
+	|   exec_stmt
+	|   assert_stmt ;
 
 varargslist
 	:	defparameter (options {greedy=true;}:COMMA defparameter)* (COMMA ( STAR identifier (COMMA DOUBLESTAR identifier)? | DOUBLESTAR identifier )? )?
@@ -247,12 +258,83 @@ augassign
 	|	VBAREQUAL | CIRCUMFLEXEQUAL | LEFTSHIFTEQUAL | RIGHTSHIFTEQUAL 
 	|	DOUBLESTAREQUAL | DOUBLESLASHEQUAL ;
 
+print_stmt
+	:   'print' (printlist | RIGHTSHIFT printlist)? ;
+
+printlist returns [newline]
+	:   test (options {k=2;}: COMMA test)* (COMMA)? ;
+
+del_stmt
+	:   'del' exprlist ;
+
+pass_stmt
+	:   'pass' ;
+
+flow_stmt
+	:   break_stmt
+	|   continue_stmt
+	//|   return_stmt
+	|   raise_stmt
+	|   yield_stmt ;
+
+break_stmt
+	:   'break' ;
+
+continue_stmt
+	:   'continue' ;
+
 yield_stmt
 	:	yield_expr ;
 
 raise_stmt
 	:	'raise' (test (COMMA test (COMMA test)?)?)? ;
 
+exec_stmt
+	:   'exec' expr ('in' test (COMMA test)?)? ;
+
+assert_stmt
+	:   'assert' test (COMMA test)? ;
+
+compound_stmt
+	:   if_stmt
+	|   while_stmt
+	|   for_stmt
+	|   try_stmt
+	|   with_stmt
+	//|   funcdef
+	//|   classdef
+	;
+
+if_stmt
+	:   'if' test COLON suite elif_clause* ('else' COLON suite)? ;
+
+elif_clause
+	:   'elif' test COLON suite ;
+
+while_stmt
+	:   'while' test COLON suite ('else' COLON suite)? ;
+
+for_stmt
+	:   'for' exprlist 'in' testlist COLON suite ('else' COLON suite)? ;
+
+try_stmt
+	:   'try' COLON suite
+			( except_clause+ ('else' COLON suite)? ('finally' COLON suite)?
+			| 'finally' COLON suite ) ;
+
+with_stmt
+	:   'with' test (with_var)? COLON suite ;
+
+with_var
+	:   ('as' | identifier) expr ;
+
+except_clause
+	:   'except' (test (COMMA test)?)? COLON suite ;
+
+suite
+	:   simple_stmt
+	|   NEWLINE INDENT (stmt)+ DEDENT
+	;
 
 test
 	:	or_test
@@ -306,6 +388,7 @@ atom
 	|	LCURLY (dictmaker)? RCURLY
 	|	BACKQUOTE testlist BACKQUOTE
 	|	identifier
+	|   NONE
 	|	INT
 	|	LONGINT
 	|	FLOAT
@@ -466,6 +549,9 @@ WS 	:			(' '|'\t')+ {$channel=HIDDEN} ;
 
 identifier
 	:	WNAME | NAME ;
+
+NONE
+	:   'None' ;
 
 WNAME
 	:	( 'A' .. 'Z' ) ( 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' )* ;

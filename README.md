@@ -17,6 +17,7 @@ Run `make` from the top-level folder.
 * `make test`: show lexer and parser output for test.kv
 * `make demo`: start Kivy AST demo for test.kv
 * `make kivydemo`: start Kivy AST demo for tstyle.kv
+* `make loader`: start a demo app using AST loader instead of Builder loader
 
 test.kv is a simple kv file to test the grammar.
 

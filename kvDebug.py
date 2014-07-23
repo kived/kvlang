@@ -2,6 +2,16 @@ import sys
 from kvlang.kvTokenLexer import kvTokenLexer
 from kvlang.kvParser import kvParser
 
+from antlr3.main import ParserMain
+
+class kvParserMain(ParserMain):
+	def __init__(self, lexerClass, parserClass):
+		ParserMain.__init__(self, lexerClass.__name__, parserClass)
+		self.lexerClass = lexerClass
+	
+	def setUp(self, options):
+		pass
+
 def main(argv, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr):
 	## fix version numbers
 	#kvLexer.antlr_version = kvParser.antlr_version = (3, 1, 3, 0)
@@ -12,8 +22,7 @@ def main(argv, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr):
 	hash32 = lambda value: pyhash(value) & 0x7fffffff
 	__builtins__.hash = hash32
 	
-	from antlr3.main import ParserMain
-	main = ParserMain("kvTokenLexer", kvParser)
+	main = kvParserMain(kvTokenLexer, kvParser)
 	
 	main.stdin = stdin
 	main.stdout = stdout

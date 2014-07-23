@@ -28,6 +28,17 @@ class Source(object):
 		self.tokens = tokens
 		self.source = source
 	
+	def get_line(self, tree):
+		tokens = self.tokens
+		tstart = tree.tokenStartIndex
+		tstop = min(tree.tokenStopIndex, len(tokens) - 1)
+		
+		while tstart < tstop:
+			if hasattr(tokens[tstart], 'start') and tokens[tstart].start is not None:
+				return tokens[tstart].line - 1
+		
+		return 0
+	
 	def get_textrange(self, tree):
 		return gettextrange(tree, self.tokens)
 	
@@ -47,6 +58,9 @@ class Node(CommonTree):
 		super(Node, self).__init__(payload)
 		self.source = self._source
 		self.sourcetext = None
+	
+	def get_sourceline(self):
+		return self.source.get_line(self)
 	
 	def get_text(self):
 		if self.sourcetext:
@@ -86,7 +100,12 @@ class CommentNode(TextNode):
 class WidgetLikeNode(Node):
 	
 	def get_name(self):
-		return '<none>'
+		return str(self)
+	
+	def interesting_children(self):
+		for child in self.getChildren():
+			if isinstance(child, (PropertyNode, WidgetNode, CanvasNode)):
+				yield child
 	
 	def properties(self):
 		for child in self.getChildren():
@@ -111,10 +130,12 @@ class WidgetLikeNode(Node):
 	
 	def get_canvasblocks(self):
 		return list(self.canvasblocks())
+	
+	def get_interesting_children(self):
+		return list(self.interesting_children())
 
 class WidgetNode(TextNode, WidgetLikeNode):
-	def get_name(self):
-		return str(self)
+	pass
 
 class ClassRuleNode(WidgetLikeNode):
 	def __init__(self, token, classes):
@@ -133,11 +154,7 @@ class ClassRuleNode(WidgetLikeNode):
 
 class TemplateRuleNode(ClassRuleNode):
 	def __str__(self):
-		# if self.classes.text == 'CLASSLIST':
-		# 	s = ','.join(str(c) for c in self.classes.getChildren())
-		# else:
-		s = str(self.classes)
-		return '[' + s + ']'
+		return '[' + str(self.classes) + ']'
 
 class PropertyNode(Node):
 	def __init__(self, token, name, value):
@@ -146,11 +163,18 @@ class PropertyNode(Node):
 		self.valuenode = value
 	
 	@property
+	def multiline(self):
+		return self.valuenode.isNil()
+	
+	@property
 	def name(self):
 		return str(self.namenode.text)
 	
 	@property
 	def value(self):
+		#return '\n'.join(str(n) for n in self.children)
+		if self.multiline:
+			return '\n' + '\n'.join('\t' + str(n) for n in self.valuenode.children)
 		return str(self.valuenode)
 	
 	def __str__(self):
@@ -164,10 +188,20 @@ class PythonNode(Node):
 	def __str__(self):
 		return self.get_text()
 
-class CanvasNode(TextNode):
-	pass
+class CanvasNode(TextNode, WidgetLikeNode):
+	def interesting_children(self):
+		for child in self.getChildren():
+			if isinstance(child, InstructionNode):
+				yield child
+	
+	@property
+	def canvas_object(self):
+		parts = str(self).split('.')
+		if len(parts) > 1:
+			return 'canvas_' + parts[-1]
+		return 'canvas_root'
 
-class InstructionNode(TextNode):
+class InstructionNode(WidgetNode):
 	pass
 
 class ClassListNode(Node):

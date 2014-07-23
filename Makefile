@@ -6,6 +6,11 @@ all: compilegrammar
 compilegrammar:
 	cd g; $(MAKE)
 
+debug: debuggrammar
+
+debuggrammar:
+	cd g; $(MAKE) debug
+
 clean:
 	find . -name '*.pyc' -delete
 	find . -name '*.kv.out' -delete
@@ -18,4 +23,7 @@ demo:
 	PYTHONPATH=../kivy /usr/bin/env python2.7 kvAst.py test.kv
 
 kivydemo:
-	PYTHONPATH=../kivy /usr/bin/env python2.7 kvAst.py tstyle.kv
+	PYTHONPATH=../kivy /usr/bin/env python2.7 kvAst.py style.kv
+
+loader:
+	PYTHONPATH=../kivy /usr/bin/env python2.7 kvLoader.py

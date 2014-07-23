@@ -1,11 +1,14 @@
+import re
 from time import time
 import antlr3
 from antlr3.tree import CommonTree
 from kivy.clock import Clock
 
 from kivy.event import EventDispatcher
+from kivy.lang import Builder
 from kivy.logger import Logger
 from kivy.properties import StringProperty, AliasProperty, ObjectProperty, NumericProperty
+from kvlang.ast_parser import ASTParser, load_ast
 
 from kvlang.kvParser import kvParser
 from kvlang.kvTokenLexer import kvTokenLexer
@@ -66,7 +69,7 @@ class kvOutput(object):
 		assert self.indent_level >= 0
 
 	def write(self, text):
-		self.output += [('\t' * self.indent_level) + str(text)]
+		self.output += [(('\t' * self.indent_level) + str(t)) for t in text.split('\n')]
 
 	def blanknode(self, tree):
 		if self.output and self.output[-1]:
@@ -114,7 +117,13 @@ class kvOutput(object):
 
 
 class AST(EventDispatcher):
-	source = StringProperty('')
+	_source = StringProperty('')
+	
+	def get_source(self):
+		return self._source
+	def set_source(self, source):
+		self._source = self._tab(source)
+	source = AliasProperty(get_source, set_source, bind=('_source',))
 	
 	_filename = StringProperty('<source>')
 	
@@ -127,7 +136,7 @@ class AST(EventDispatcher):
 			else:
 				self._filename = filename
 				self._load()
-	filename = AliasProperty(get_filename, set_filename)
+	filename = AliasProperty(get_filename, set_filename, bind=('_filename',))
 	
 	compiler = ObjectProperty(kvOutput)
 	parser = ObjectProperty(parsestring)
@@ -166,6 +175,15 @@ class AST(EventDispatcher):
 	def on_tree_changed(self, tree):
 		pass
 	
+	def load_now(self, filename=None, source=None):
+		if filename:
+			self._filename = filename
+			self._load()
+		elif source:
+			self._filename = '<source>'
+			self._source = source
+		self._generate_ast()
+	
 	def load(self, filename=None, source=None):
 		if filename:
 			self.filename = filename
@@ -183,7 +201,19 @@ class AST(EventDispatcher):
 			self._generate_ast_timer.cancel()
 		self._generate_ast_timer = Clock.schedule_once(self._generate_ast, self.generate_delay / 1000.)
 	
+	def _tab(self, string):
+		ts = re.compile(r'^ {4}', re.M)
+		string, count = ts.subn(r'\t', string)
+		i = 1
+		while count > 0:
+			subpatt = re.compile(r'^\t{' + `i` + '} {4}', re.M)
+			string, count = subpatt.subn('\t' * (i + 1), string)
+			i += 1
+		return string
+	
 	def _generate_ast(self, *_):
+		# ts = re.compile(r'^(    )+')
+		# source = ts.sub(lambda m: '\t' * (m.end() // 2), self.source)
 		self.token_stream, self.result, self.root_node = self.parser(self.source)
 		self.tree = self.result.tree
 		self.tokens = self.token_stream.getTokens()
@@ -209,6 +239,30 @@ class AST(EventDispatcher):
 		Logger.debug('kvlang: root node: %s' % str(self.root_node))
 		
 		self.dispatch('on_generate', self.tree)
+	
+	def __gen_widget(self, widget):
+		yield widget
+		for child in widget.children:
+			for w in self.__gen_widget(child):
+				yield w
+	
+	def __gen_tree(self, tree):
+		yield tree
+		for child in tree.widgets():
+			for c in self.__gen_tree(child):
+				yield c
+	
+	def instrument(self, root):
+		gen_tree = self.__gen_tree(self.tree)
+		gen_widget = self.__gen_widget(root)
+		try:
+			while True:
+				t, w = next(gen_tree), next(gen_widget)
+				print 'instrument', t, '<=>', w
+				t._ast_widget = w
+				w._ast_tree = t
+		except StopIteration:
+			print 'instrumentation finished'
 	
 	def compile(self):
 		output = str(self.compiler(self.tree, self.tokens, self.source))
@@ -290,4 +344,33 @@ class AST(EventDispatcher):
 				node.parent.deleteChild(node.childIndex)
 				self.dispatch_tree_changed()
 	
+	def find_all(self, type_):
+		for node in self._find_all(self.tree, type_):
+			yield node
 	
+	def _find_all(self, tree, type_):
+		if isinstance(tree, type_):
+			yield tree
+		for child in tree.children:
+			for node in self._find_all(child, type_):
+				yield node
+	
+	def get_parser_result(self):
+		return ASTParser(ast=self)
+	
+	@classmethod
+	def _create_ast(cls, source=None, filename=None):
+		ast = cls()
+		ast.load_now(source=source, filename=filename)
+		print ast.compile()
+		return load_ast(Builder, ast)
+	
+	@classmethod
+	def load_file(cls, filename):
+		return cls._create_ast(filename=filename)
+	
+	@classmethod
+	def load_string(cls, source):
+		return cls._create_ast(source=source)
+	
+
