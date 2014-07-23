@@ -4,7 +4,7 @@ kvlang
 ANTLRv3-based grammar for parsing kv and generating abstract syntax trees.
 
 Requires ANTLR Python runtime v3.1.3. i.e.:
-    `pip install http://www.antlr.org/download/antlr-3.1.3.tar.gz`
+    `pip install http://www.antlr3.org/download/antlr-3.1.3.tar.gz`
 
 
 ###Building
