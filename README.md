@@ -21,5 +21,3 @@ Run `make` from the top-level folder.
 
 test.kv is a simple kv file to test the grammar.
 
-tstyle.kv is Kivy's style.kv with spacing fixed (the grammar is more strict than Kivy's kv parser and handles indents in a way more similar to CPython).
-
