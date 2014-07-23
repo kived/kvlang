@@ -66,8 +66,7 @@ def parsefile(filename):
 		
 		print
 	
-	Node.set_tokens(tokens.getTokens())
-	Node.set_text_source(file(filename).read())
+	Node.set_source(tokens.getTokens(), file(filename).read())
 	
 	parser = kvParser(tokens)
 	result = parser.kvfile()
