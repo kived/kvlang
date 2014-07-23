@@ -181,7 +181,7 @@ class AST(EventDispatcher):
 			self._load()
 		elif source:
 			self._filename = '<source>'
-			self._source = source
+			self._source = self._tab(source)
 		self._generate_ast()
 	
 	def load(self, filename=None, source=None):
@@ -206,14 +206,12 @@ class AST(EventDispatcher):
 		string, count = ts.subn(r'\t', string)
 		i = 1
 		while count > 0:
-			subpatt = re.compile(r'^\t{' + `i` + '} {4}', re.M)
-			string, count = subpatt.subn('\t' * (i + 1), string)
+			subpatt = re.compile(r'^\t{' + str(i) + '} {4}', re.M)
 			i += 1
+			string, count = subpatt.subn('\t' * i, string)
 		return string
 	
 	def _generate_ast(self, *_):
-		# ts = re.compile(r'^(    )+')
-		# source = ts.sub(lambda m: '\t' * (m.end() // 2), self.source)
 		self.token_stream, self.result, self.root_node = self.parser(self.source)
 		self.tree = self.result.tree
 		self.tokens = self.token_stream.getTokens()
@@ -362,8 +360,8 @@ class AST(EventDispatcher):
 	def _create_ast(cls, source=None, filename=None):
 		ast = cls()
 		ast.load_now(source=source, filename=filename)
-		print ast.compile()
-		return load_ast(Builder, ast)
+		#print ast.compile()
+		return load_ast(Builder, ast, filename=filename)
 	
 	@classmethod
 	def load_file(cls, filename):

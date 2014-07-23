@@ -90,6 +90,7 @@ tokens {
 
 @lexer::init {
 	self.startPos = -1
+	self.nested = 0
 	def nextToken():
 		self.startPos = self.getCharPositionInLine()
 		return Lexer.nextToken(self)
@@ -458,10 +459,10 @@ gen_if
 yield_expr
 	:	'yield' testlist? ;
 
-LPAREN :		'(' ;
-RPAREN :		')' ;
-LBRACK :		'[' ;
-RBRACK :		']' ;
+LPAREN :		'(' {self.nested += 1} ;
+RPAREN :		')' {self.nested -= 1} ;
+LBRACK :		'[' {self.nested += 1} ;
+RBRACK :		']' {self.nested -= 1} ;
 COLON :			':' ;
 COMMA :			',' ;
 SEMI :			';' ;
@@ -476,8 +477,8 @@ GREATER :		'>' ;
 ASSIGN :		'=' ;
 PERCENT :		'%' ;
 BACKQUOTE :		'`' ;
-LCURLY :		'{' ;
-RCURLY :		'}' ;
+LCURLY :		'{' {self.nested += 1} ;
+RCURLY :		'}' {self.nested -= 1} ;
 CIRCUMFLEX :	'^' ;
 TILDE :			'~' ;
 EQUAL :			'==' ;
@@ -540,7 +541,7 @@ STRING
 fragment
 ESC	:	'\\' . ;
 
-NEWLINE :       (('\u000C')?('\r')? '\n' ) ;
+NEWLINE :       (('\u000C')?('\r')? '\n' ) {if self.nested > 0: $channel=HIDDEN} ;
 WS 	:			(' '|'\t')+ {$channel=HIDDEN} ;
 
 /*

@@ -1,4 +1,4 @@
-# $ANTLR 3.1.3 Mar 18, 2009 10:09:25 kv.g 2014-07-23 13:02:31
+# $ANTLR 3.1.3 Mar 18, 2009 10:09:25 kv.g 2014-07-23 13:58:59
 
 import sys
 from antlr3 import *
@@ -175,6 +175,7 @@ class kvLexer(Lexer):
 
                              
         self.startPos = -1
+        self.nested = 0
         def nextToken():
         	self.startPos = self.getCharPositionInLine()
         	return Lexer.nextToken(self)
@@ -191,8 +192,8 @@ class kvLexer(Lexer):
             _type = T__86
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:15:7: ( 'print' )
-            # kv.g:15:9: 'print'
+            # kv.g:16:7: ( 'print' )
+            # kv.g:16:9: 'print'
             pass 
             self.match("print")
 
@@ -216,8 +217,8 @@ class kvLexer(Lexer):
             _type = T__87
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:16:7: ( 'del' )
-            # kv.g:16:9: 'del'
+            # kv.g:17:7: ( 'del' )
+            # kv.g:17:9: 'del'
             pass 
             self.match("del")
 
@@ -241,8 +242,8 @@ class kvLexer(Lexer):
             _type = T__88
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:17:7: ( 'pass' )
-            # kv.g:17:9: 'pass'
+            # kv.g:18:7: ( 'pass' )
+            # kv.g:18:9: 'pass'
             pass 
             self.match("pass")
 
@@ -266,8 +267,8 @@ class kvLexer(Lexer):
             _type = T__89
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:18:7: ( 'break' )
-            # kv.g:18:9: 'break'
+            # kv.g:19:7: ( 'break' )
+            # kv.g:19:9: 'break'
             pass 
             self.match("break")
 
@@ -291,8 +292,8 @@ class kvLexer(Lexer):
             _type = T__90
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:19:7: ( 'continue' )
-            # kv.g:19:9: 'continue'
+            # kv.g:20:7: ( 'continue' )
+            # kv.g:20:9: 'continue'
             pass 
             self.match("continue")
 
@@ -316,8 +317,8 @@ class kvLexer(Lexer):
             _type = T__91
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:20:7: ( 'raise' )
-            # kv.g:20:9: 'raise'
+            # kv.g:21:7: ( 'raise' )
+            # kv.g:21:9: 'raise'
             pass 
             self.match("raise")
 
@@ -341,8 +342,8 @@ class kvLexer(Lexer):
             _type = T__92
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:21:7: ( 'exec' )
-            # kv.g:21:9: 'exec'
+            # kv.g:22:7: ( 'exec' )
+            # kv.g:22:9: 'exec'
             pass 
             self.match("exec")
 
@@ -366,8 +367,8 @@ class kvLexer(Lexer):
             _type = T__93
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:22:7: ( 'in' )
-            # kv.g:22:9: 'in'
+            # kv.g:23:7: ( 'in' )
+            # kv.g:23:9: 'in'
             pass 
             self.match("in")
 
@@ -391,8 +392,8 @@ class kvLexer(Lexer):
             _type = T__94
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:23:7: ( 'assert' )
-            # kv.g:23:9: 'assert'
+            # kv.g:24:7: ( 'assert' )
+            # kv.g:24:9: 'assert'
             pass 
             self.match("assert")
 
@@ -416,8 +417,8 @@ class kvLexer(Lexer):
             _type = T__95
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:24:7: ( 'if' )
-            # kv.g:24:9: 'if'
+            # kv.g:25:7: ( 'if' )
+            # kv.g:25:9: 'if'
             pass 
             self.match("if")
 
@@ -441,8 +442,8 @@ class kvLexer(Lexer):
             _type = T__96
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:25:7: ( 'else' )
-            # kv.g:25:9: 'else'
+            # kv.g:26:7: ( 'else' )
+            # kv.g:26:9: 'else'
             pass 
             self.match("else")
 
@@ -466,8 +467,8 @@ class kvLexer(Lexer):
             _type = T__97
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:26:7: ( 'elif' )
-            # kv.g:26:9: 'elif'
+            # kv.g:27:7: ( 'elif' )
+            # kv.g:27:9: 'elif'
             pass 
             self.match("elif")
 
@@ -491,8 +492,8 @@ class kvLexer(Lexer):
             _type = T__98
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:27:7: ( 'while' )
-            # kv.g:27:9: 'while'
+            # kv.g:28:7: ( 'while' )
+            # kv.g:28:9: 'while'
             pass 
             self.match("while")
 
@@ -516,8 +517,8 @@ class kvLexer(Lexer):
             _type = T__99
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:28:7: ( 'for' )
-            # kv.g:28:9: 'for'
+            # kv.g:29:7: ( 'for' )
+            # kv.g:29:9: 'for'
             pass 
             self.match("for")
 
@@ -541,8 +542,8 @@ class kvLexer(Lexer):
             _type = T__100
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:29:8: ( 'try' )
-            # kv.g:29:10: 'try'
+            # kv.g:30:8: ( 'try' )
+            # kv.g:30:10: 'try'
             pass 
             self.match("try")
 
@@ -566,8 +567,8 @@ class kvLexer(Lexer):
             _type = T__101
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:30:8: ( 'finally' )
-            # kv.g:30:10: 'finally'
+            # kv.g:31:8: ( 'finally' )
+            # kv.g:31:10: 'finally'
             pass 
             self.match("finally")
 
@@ -591,8 +592,8 @@ class kvLexer(Lexer):
             _type = T__102
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:31:8: ( 'with' )
-            # kv.g:31:10: 'with'
+            # kv.g:32:8: ( 'with' )
+            # kv.g:32:10: 'with'
             pass 
             self.match("with")
 
@@ -616,8 +617,8 @@ class kvLexer(Lexer):
             _type = T__103
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:32:8: ( 'as' )
-            # kv.g:32:10: 'as'
+            # kv.g:33:8: ( 'as' )
+            # kv.g:33:10: 'as'
             pass 
             self.match("as")
 
@@ -641,8 +642,8 @@ class kvLexer(Lexer):
             _type = T__104
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:33:8: ( 'except' )
-            # kv.g:33:10: 'except'
+            # kv.g:34:8: ( 'except' )
+            # kv.g:34:10: 'except'
             pass 
             self.match("except")
 
@@ -666,8 +667,8 @@ class kvLexer(Lexer):
             _type = T__105
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:34:8: ( 'is' )
-            # kv.g:34:10: 'is'
+            # kv.g:35:8: ( 'is' )
+            # kv.g:35:10: 'is'
             pass 
             self.match("is")
 
@@ -691,8 +692,8 @@ class kvLexer(Lexer):
             _type = T__106
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:35:8: ( 'lambda' )
-            # kv.g:35:10: 'lambda'
+            # kv.g:36:8: ( 'lambda' )
+            # kv.g:36:10: 'lambda'
             pass 
             self.match("lambda")
 
@@ -716,8 +717,8 @@ class kvLexer(Lexer):
             _type = T__107
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:36:8: ( 'yield' )
-            # kv.g:36:10: 'yield'
+            # kv.g:37:8: ( 'yield' )
+            # kv.g:37:10: 'yield'
             pass 
             self.match("yield")
 
@@ -741,10 +742,13 @@ class kvLexer(Lexer):
             _type = LPAREN
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:461:8: ( '(' )
-            # kv.g:461:11: '('
+            # kv.g:462:8: ( '(' )
+            # kv.g:462:11: '('
             pass 
             self.match(40)
+            #action start
+            self.nested += 1
+            #action end
 
 
 
@@ -766,10 +770,13 @@ class kvLexer(Lexer):
             _type = RPAREN
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:462:8: ( ')' )
-            # kv.g:462:11: ')'
+            # kv.g:463:8: ( ')' )
+            # kv.g:463:11: ')'
             pass 
             self.match(41)
+            #action start
+            self.nested -= 1
+            #action end
 
 
 
@@ -791,10 +798,13 @@ class kvLexer(Lexer):
             _type = LBRACK
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:463:8: ( '[' )
-            # kv.g:463:11: '['
+            # kv.g:464:8: ( '[' )
+            # kv.g:464:11: '['
             pass 
             self.match(91)
+            #action start
+            self.nested += 1
+            #action end
 
 
 
@@ -816,10 +826,13 @@ class kvLexer(Lexer):
             _type = RBRACK
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:464:8: ( ']' )
-            # kv.g:464:11: ']'
+            # kv.g:465:8: ( ']' )
+            # kv.g:465:11: ']'
             pass 
             self.match(93)
+            #action start
+            self.nested -= 1
+            #action end
 
 
 
@@ -841,8 +854,8 @@ class kvLexer(Lexer):
             _type = COLON
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:465:7: ( ':' )
-            # kv.g:465:11: ':'
+            # kv.g:466:7: ( ':' )
+            # kv.g:466:11: ':'
             pass 
             self.match(58)
 
@@ -866,8 +879,8 @@ class kvLexer(Lexer):
             _type = COMMA
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:466:7: ( ',' )
-            # kv.g:466:11: ','
+            # kv.g:467:7: ( ',' )
+            # kv.g:467:11: ','
             pass 
             self.match(44)
 
@@ -891,8 +904,8 @@ class kvLexer(Lexer):
             _type = SEMI
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:467:6: ( ';' )
-            # kv.g:467:10: ';'
+            # kv.g:468:6: ( ';' )
+            # kv.g:468:10: ';'
             pass 
             self.match(59)
 
@@ -916,8 +929,8 @@ class kvLexer(Lexer):
             _type = PLUS
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:468:6: ( '+' )
-            # kv.g:468:10: '+'
+            # kv.g:469:6: ( '+' )
+            # kv.g:469:10: '+'
             pass 
             self.match(43)
 
@@ -941,8 +954,8 @@ class kvLexer(Lexer):
             _type = MINUS
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:469:7: ( '-' )
-            # kv.g:469:11: '-'
+            # kv.g:470:7: ( '-' )
+            # kv.g:470:11: '-'
             pass 
             self.match(45)
 
@@ -966,8 +979,8 @@ class kvLexer(Lexer):
             _type = STAR
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:470:6: ( '*' )
-            # kv.g:470:10: '*'
+            # kv.g:471:6: ( '*' )
+            # kv.g:471:10: '*'
             pass 
             self.match(42)
 
@@ -991,8 +1004,8 @@ class kvLexer(Lexer):
             _type = SLASH
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:471:7: ( '/' )
-            # kv.g:471:11: '/'
+            # kv.g:472:7: ( '/' )
+            # kv.g:472:11: '/'
             pass 
             self.match(47)
 
@@ -1016,8 +1029,8 @@ class kvLexer(Lexer):
             _type = VBAR
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:472:6: ( '|' )
-            # kv.g:472:10: '|'
+            # kv.g:473:6: ( '|' )
+            # kv.g:473:10: '|'
             pass 
             self.match(124)
 
@@ -1041,8 +1054,8 @@ class kvLexer(Lexer):
             _type = AMPER
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:473:7: ( '&' )
-            # kv.g:473:11: '&'
+            # kv.g:474:7: ( '&' )
+            # kv.g:474:11: '&'
             pass 
             self.match(38)
 
@@ -1066,8 +1079,8 @@ class kvLexer(Lexer):
             _type = LESS
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:474:6: ( '<' )
-            # kv.g:474:10: '<'
+            # kv.g:475:6: ( '<' )
+            # kv.g:475:10: '<'
             pass 
             self.match(60)
 
@@ -1091,8 +1104,8 @@ class kvLexer(Lexer):
             _type = GREATER
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:475:9: ( '>' )
-            # kv.g:475:12: '>'
+            # kv.g:476:9: ( '>' )
+            # kv.g:476:12: '>'
             pass 
             self.match(62)
 
@@ -1116,8 +1129,8 @@ class kvLexer(Lexer):
             _type = ASSIGN
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:476:8: ( '=' )
-            # kv.g:476:11: '='
+            # kv.g:477:8: ( '=' )
+            # kv.g:477:11: '='
             pass 
             self.match(61)
 
@@ -1141,8 +1154,8 @@ class kvLexer(Lexer):
             _type = PERCENT
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:477:9: ( '%' )
-            # kv.g:477:12: '%'
+            # kv.g:478:9: ( '%' )
+            # kv.g:478:12: '%'
             pass 
             self.match(37)
 
@@ -1166,8 +1179,8 @@ class kvLexer(Lexer):
             _type = BACKQUOTE
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:478:11: ( '`' )
-            # kv.g:478:14: '`'
+            # kv.g:479:11: ( '`' )
+            # kv.g:479:14: '`'
             pass 
             self.match(96)
 
@@ -1191,10 +1204,13 @@ class kvLexer(Lexer):
             _type = LCURLY
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:479:8: ( '{' )
-            # kv.g:479:11: '{'
+            # kv.g:480:8: ( '{' )
+            # kv.g:480:11: '{'
             pass 
             self.match(123)
+            #action start
+            self.nested += 1
+            #action end
 
 
 
@@ -1216,10 +1232,13 @@ class kvLexer(Lexer):
             _type = RCURLY
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:480:8: ( '}' )
-            # kv.g:480:11: '}'
+            # kv.g:481:8: ( '}' )
+            # kv.g:481:11: '}'
             pass 
             self.match(125)
+            #action start
+            self.nested -= 1
+            #action end
 
 
 
@@ -1241,8 +1260,8 @@ class kvLexer(Lexer):
             _type = CIRCUMFLEX
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:481:12: ( '^' )
-            # kv.g:481:14: '^'
+            # kv.g:482:12: ( '^' )
+            # kv.g:482:14: '^'
             pass 
             self.match(94)
 
@@ -1266,8 +1285,8 @@ class kvLexer(Lexer):
             _type = TILDE
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:482:7: ( '~' )
-            # kv.g:482:11: '~'
+            # kv.g:483:7: ( '~' )
+            # kv.g:483:11: '~'
             pass 
             self.match(126)
 
@@ -1291,8 +1310,8 @@ class kvLexer(Lexer):
             _type = EQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:483:7: ( '==' )
-            # kv.g:483:11: '=='
+            # kv.g:484:7: ( '==' )
+            # kv.g:484:11: '=='
             pass 
             self.match("==")
 
@@ -1316,8 +1335,8 @@ class kvLexer(Lexer):
             _type = NOTEQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:484:10: ( '!=' )
-            # kv.g:484:13: '!='
+            # kv.g:485:10: ( '!=' )
+            # kv.g:485:13: '!='
             pass 
             self.match("!=")
 
@@ -1341,8 +1360,8 @@ class kvLexer(Lexer):
             _type = ALT_NOTEQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:485:14: ( '<>' )
-            # kv.g:485:16: '<>'
+            # kv.g:486:14: ( '<>' )
+            # kv.g:486:16: '<>'
             pass 
             self.match("<>")
 
@@ -1366,8 +1385,8 @@ class kvLexer(Lexer):
             _type = LESSEQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:486:11: ( '<=' )
-            # kv.g:486:14: '<='
+            # kv.g:487:11: ( '<=' )
+            # kv.g:487:14: '<='
             pass 
             self.match("<=")
 
@@ -1391,8 +1410,8 @@ class kvLexer(Lexer):
             _type = LEFTSHIFT
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:487:11: ( '<<' )
-            # kv.g:487:14: '<<'
+            # kv.g:488:11: ( '<<' )
+            # kv.g:488:14: '<<'
             pass 
             self.match("<<")
 
@@ -1416,8 +1435,8 @@ class kvLexer(Lexer):
             _type = GREATEREQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:488:14: ( '>=' )
-            # kv.g:488:16: '>='
+            # kv.g:489:14: ( '>=' )
+            # kv.g:489:16: '>='
             pass 
             self.match(">=")
 
@@ -1441,8 +1460,8 @@ class kvLexer(Lexer):
             _type = RIGHTSHIFT
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:489:12: ( '>>' )
-            # kv.g:489:14: '>>'
+            # kv.g:490:12: ( '>>' )
+            # kv.g:490:14: '>>'
             pass 
             self.match(">>")
 
@@ -1466,8 +1485,8 @@ class kvLexer(Lexer):
             _type = PLUSEQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:490:11: ( '+=' )
-            # kv.g:490:14: '+='
+            # kv.g:491:11: ( '+=' )
+            # kv.g:491:14: '+='
             pass 
             self.match("+=")
 
@@ -1491,8 +1510,8 @@ class kvLexer(Lexer):
             _type = MINUSEQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:491:12: ( '-=' )
-            # kv.g:491:14: '-='
+            # kv.g:492:12: ( '-=' )
+            # kv.g:492:14: '-='
             pass 
             self.match("-=")
 
@@ -1516,8 +1535,8 @@ class kvLexer(Lexer):
             _type = DOUBLESTAR
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:492:12: ( '**' )
-            # kv.g:492:14: '**'
+            # kv.g:493:12: ( '**' )
+            # kv.g:493:14: '**'
             pass 
             self.match("**")
 
@@ -1541,8 +1560,8 @@ class kvLexer(Lexer):
             _type = STAREQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:493:11: ( '*=' )
-            # kv.g:493:14: '*='
+            # kv.g:494:11: ( '*=' )
+            # kv.g:494:14: '*='
             pass 
             self.match("*=")
 
@@ -1566,8 +1585,8 @@ class kvLexer(Lexer):
             _type = DOUBLESLASH
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:494:13: ( '//' )
-            # kv.g:494:15: '//'
+            # kv.g:495:13: ( '//' )
+            # kv.g:495:15: '//'
             pass 
             self.match("//")
 
@@ -1591,8 +1610,8 @@ class kvLexer(Lexer):
             _type = SLASHEQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:495:12: ( '/=' )
-            # kv.g:495:14: '/='
+            # kv.g:496:12: ( '/=' )
+            # kv.g:496:14: '/='
             pass 
             self.match("/=")
 
@@ -1616,8 +1635,8 @@ class kvLexer(Lexer):
             _type = VBAREQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:496:11: ( '|=' )
-            # kv.g:496:14: '|='
+            # kv.g:497:11: ( '|=' )
+            # kv.g:497:14: '|='
             pass 
             self.match("|=")
 
@@ -1641,8 +1660,8 @@ class kvLexer(Lexer):
             _type = PERCENTEQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:497:14: ( '%=' )
-            # kv.g:497:16: '%='
+            # kv.g:498:14: ( '%=' )
+            # kv.g:498:16: '%='
             pass 
             self.match("%=")
 
@@ -1666,8 +1685,8 @@ class kvLexer(Lexer):
             _type = AMPEREQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:498:12: ( '&=' )
-            # kv.g:498:14: '&='
+            # kv.g:499:12: ( '&=' )
+            # kv.g:499:14: '&='
             pass 
             self.match("&=")
 
@@ -1691,8 +1710,8 @@ class kvLexer(Lexer):
             _type = CIRCUMFLEXEQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:499:17: ( '^=' )
-            # kv.g:499:19: '^='
+            # kv.g:500:17: ( '^=' )
+            # kv.g:500:19: '^='
             pass 
             self.match("^=")
 
@@ -1716,8 +1735,8 @@ class kvLexer(Lexer):
             _type = LEFTSHIFTEQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:500:16: ( '<<=' )
-            # kv.g:500:18: '<<='
+            # kv.g:501:16: ( '<<=' )
+            # kv.g:501:18: '<<='
             pass 
             self.match("<<=")
 
@@ -1741,8 +1760,8 @@ class kvLexer(Lexer):
             _type = RIGHTSHIFTEQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:501:17: ( '>>=' )
-            # kv.g:501:19: '>>='
+            # kv.g:502:17: ( '>>=' )
+            # kv.g:502:19: '>>='
             pass 
             self.match(">>=")
 
@@ -1766,8 +1785,8 @@ class kvLexer(Lexer):
             _type = DOUBLESTAREQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:502:17: ( '**=' )
-            # kv.g:502:19: '**='
+            # kv.g:503:17: ( '**=' )
+            # kv.g:503:19: '**='
             pass 
             self.match("**=")
 
@@ -1791,8 +1810,8 @@ class kvLexer(Lexer):
             _type = DOUBLESLASHEQUAL
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:503:18: ( '//=' )
-            # kv.g:503:20: '//='
+            # kv.g:504:18: ( '//=' )
+            # kv.g:504:20: '//='
             pass 
             self.match("//=")
 
@@ -1816,8 +1835,8 @@ class kvLexer(Lexer):
             _type = DOT
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:504:5: ( '.' )
-            # kv.g:504:9: '.'
+            # kv.g:505:5: ( '.' )
+            # kv.g:505:9: '.'
             pass 
             self.match(46)
 
@@ -1841,8 +1860,8 @@ class kvLexer(Lexer):
             _type = AT
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:505:4: ( '@' )
-            # kv.g:505:8: '@'
+            # kv.g:506:4: ( '@' )
+            # kv.g:506:8: '@'
             pass 
             self.match(64)
 
@@ -1866,8 +1885,8 @@ class kvLexer(Lexer):
             _type = AND
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:506:5: ( 'and' )
-            # kv.g:506:9: 'and'
+            # kv.g:507:5: ( 'and' )
+            # kv.g:507:9: 'and'
             pass 
             self.match("and")
 
@@ -1891,8 +1910,8 @@ class kvLexer(Lexer):
             _type = OR
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:507:4: ( 'or' )
-            # kv.g:507:8: 'or'
+            # kv.g:508:4: ( 'or' )
+            # kv.g:508:8: 'or'
             pass 
             self.match("or")
 
@@ -1916,8 +1935,8 @@ class kvLexer(Lexer):
             _type = NOT
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:508:5: ( 'not' )
-            # kv.g:508:9: 'not'
+            # kv.g:509:5: ( 'not' )
+            # kv.g:509:9: 'not'
             pass 
             self.match("not")
 
@@ -1941,22 +1960,22 @@ class kvLexer(Lexer):
             _type = FLOAT
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:511:2: ( '.' DIGITS ( Exponent )? | DIGITS '.' Exponent | DIGITS ( '.' ( DIGITS ( Exponent )? )? | Exponent ) )
+            # kv.g:512:2: ( '.' DIGITS ( Exponent )? | DIGITS '.' Exponent | DIGITS ( '.' ( DIGITS ( Exponent )? )? | Exponent ) )
             alt5 = 3
             alt5 = self.dfa5.predict(self.input)
             if alt5 == 1:
-                # kv.g:511:4: '.' DIGITS ( Exponent )?
+                # kv.g:512:4: '.' DIGITS ( Exponent )?
                 pass 
                 self.match(46)
                 self.mDIGITS()
-                # kv.g:511:15: ( Exponent )?
+                # kv.g:512:15: ( Exponent )?
                 alt1 = 2
                 LA1_0 = self.input.LA(1)
 
                 if (LA1_0 == 69 or LA1_0 == 101) :
                     alt1 = 1
                 if alt1 == 1:
-                    # kv.g:511:16: Exponent
+                    # kv.g:512:16: Exponent
                     pass 
                     self.mExponent()
 
@@ -1965,7 +1984,7 @@ class kvLexer(Lexer):
 
 
             elif alt5 == 2:
-                # kv.g:512:4: DIGITS '.' Exponent
+                # kv.g:513:4: DIGITS '.' Exponent
                 pass 
                 self.mDIGITS()
                 self.match(46)
@@ -1973,10 +1992,10 @@ class kvLexer(Lexer):
 
 
             elif alt5 == 3:
-                # kv.g:513:4: DIGITS ( '.' ( DIGITS ( Exponent )? )? | Exponent )
+                # kv.g:514:4: DIGITS ( '.' ( DIGITS ( Exponent )? )? | Exponent )
                 pass 
                 self.mDIGITS()
-                # kv.g:513:11: ( '.' ( DIGITS ( Exponent )? )? | Exponent )
+                # kv.g:514:11: ( '.' ( DIGITS ( Exponent )? )? | Exponent )
                 alt4 = 2
                 LA4_0 = self.input.LA(1)
 
@@ -1990,27 +2009,27 @@ class kvLexer(Lexer):
                     raise nvae
 
                 if alt4 == 1:
-                    # kv.g:513:12: '.' ( DIGITS ( Exponent )? )?
+                    # kv.g:514:12: '.' ( DIGITS ( Exponent )? )?
                     pass 
                     self.match(46)
-                    # kv.g:513:16: ( DIGITS ( Exponent )? )?
+                    # kv.g:514:16: ( DIGITS ( Exponent )? )?
                     alt3 = 2
                     LA3_0 = self.input.LA(1)
 
                     if ((48 <= LA3_0 <= 57)) :
                         alt3 = 1
                     if alt3 == 1:
-                        # kv.g:513:17: DIGITS ( Exponent )?
+                        # kv.g:514:17: DIGITS ( Exponent )?
                         pass 
                         self.mDIGITS()
-                        # kv.g:513:24: ( Exponent )?
+                        # kv.g:514:24: ( Exponent )?
                         alt2 = 2
                         LA2_0 = self.input.LA(1)
 
                         if (LA2_0 == 69 or LA2_0 == 101) :
                             alt2 = 1
                         if alt2 == 1:
-                            # kv.g:513:25: Exponent
+                            # kv.g:514:25: Exponent
                             pass 
                             self.mExponent()
 
@@ -2022,7 +2041,7 @@ class kvLexer(Lexer):
 
 
                 elif alt4 == 2:
-                    # kv.g:513:40: Exponent
+                    # kv.g:514:40: Exponent
                     pass 
                     self.mExponent()
 
@@ -2048,8 +2067,8 @@ class kvLexer(Lexer):
             _type = LONGINT
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:516:2: ( INT ( 'l' | 'L' ) )
-            # kv.g:516:4: INT ( 'l' | 'L' )
+            # kv.g:517:2: ( INT ( 'l' | 'L' ) )
+            # kv.g:517:4: INT ( 'l' | 'L' )
             pass 
             self.mINT()
             if self.input.LA(1) == 76 or self.input.LA(1) == 108:
@@ -2077,8 +2096,8 @@ class kvLexer(Lexer):
     def mExponent(self, ):
 
         try:
-            # kv.g:520:2: ( ( 'e' | 'E' ) ( '+' | '-' )? DIGITS )
-            # kv.g:520:4: ( 'e' | 'E' ) ( '+' | '-' )? DIGITS
+            # kv.g:521:2: ( ( 'e' | 'E' ) ( '+' | '-' )? DIGITS )
+            # kv.g:521:4: ( 'e' | 'E' ) ( '+' | '-' )? DIGITS
             pass 
             if self.input.LA(1) == 69 or self.input.LA(1) == 101:
                 self.input.consume()
@@ -2087,7 +2106,7 @@ class kvLexer(Lexer):
                 self.recover(mse)
                 raise mse
 
-            # kv.g:520:16: ( '+' | '-' )?
+            # kv.g:521:16: ( '+' | '-' )?
             alt6 = 2
             LA6_0 = self.input.LA(1)
 
@@ -2126,7 +2145,7 @@ class kvLexer(Lexer):
             _type = INT
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:522:5: ( '0' ( 'x' | 'X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+ | '0' ( DIGITS )* | '1' .. '9' ( DIGITS )* )
+            # kv.g:523:5: ( '0' ( 'x' | 'X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+ | '0' ( DIGITS )* | '1' .. '9' ( DIGITS )* )
             alt10 = 3
             LA10_0 = self.input.LA(1)
 
@@ -2145,7 +2164,7 @@ class kvLexer(Lexer):
                 raise nvae
 
             if alt10 == 1:
-                # kv.g:522:7: '0' ( 'x' | 'X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+
+                # kv.g:523:7: '0' ( 'x' | 'X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+
                 pass 
                 self.match(48)
                 if self.input.LA(1) == 88 or self.input.LA(1) == 120:
@@ -2155,7 +2174,7 @@ class kvLexer(Lexer):
                     self.recover(mse)
                     raise mse
 
-                # kv.g:522:23: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+
+                # kv.g:523:23: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+
                 cnt7 = 0
                 while True: #loop7
                     alt7 = 2
@@ -2188,10 +2207,10 @@ class kvLexer(Lexer):
 
 
             elif alt10 == 2:
-                # kv.g:523:4: '0' ( DIGITS )*
+                # kv.g:524:4: '0' ( DIGITS )*
                 pass 
                 self.match(48)
-                # kv.g:523:8: ( DIGITS )*
+                # kv.g:524:8: ( DIGITS )*
                 while True: #loop8
                     alt8 = 2
                     LA8_0 = self.input.LA(1)
@@ -2201,7 +2220,7 @@ class kvLexer(Lexer):
 
 
                     if alt8 == 1:
-                        # kv.g:523:8: DIGITS
+                        # kv.g:524:8: DIGITS
                         pass 
                         self.mDIGITS()
 
@@ -2211,10 +2230,10 @@ class kvLexer(Lexer):
 
 
             elif alt10 == 3:
-                # kv.g:524:4: '1' .. '9' ( DIGITS )*
+                # kv.g:525:4: '1' .. '9' ( DIGITS )*
                 pass 
                 self.matchRange(49, 57)
-                # kv.g:524:15: ( DIGITS )*
+                # kv.g:525:15: ( DIGITS )*
                 while True: #loop9
                     alt9 = 2
                     LA9_0 = self.input.LA(1)
@@ -2224,7 +2243,7 @@ class kvLexer(Lexer):
 
 
                     if alt9 == 1:
-                        # kv.g:524:15: DIGITS
+                        # kv.g:525:15: DIGITS
                         pass 
                         self.mDIGITS()
 
@@ -2251,11 +2270,11 @@ class kvLexer(Lexer):
             _type = COMPLEX
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:527:2: ( INT ( 'j' | 'J' ) | FLOAT ( 'j' | 'J' ) )
+            # kv.g:528:2: ( INT ( 'j' | 'J' ) | FLOAT ( 'j' | 'J' ) )
             alt11 = 2
             alt11 = self.dfa11.predict(self.input)
             if alt11 == 1:
-                # kv.g:527:4: INT ( 'j' | 'J' )
+                # kv.g:528:4: INT ( 'j' | 'J' )
                 pass 
                 self.mINT()
                 if self.input.LA(1) == 74 or self.input.LA(1) == 106:
@@ -2268,7 +2287,7 @@ class kvLexer(Lexer):
 
 
             elif alt11 == 2:
-                # kv.g:528:4: FLOAT ( 'j' | 'J' )
+                # kv.g:529:4: FLOAT ( 'j' | 'J' )
                 pass 
                 self.mFLOAT()
                 if self.input.LA(1) == 74 or self.input.LA(1) == 106:
@@ -2295,10 +2314,10 @@ class kvLexer(Lexer):
     def mDIGITS(self, ):
 
         try:
-            # kv.g:532:2: ( ( '0' .. '9' )+ )
-            # kv.g:532:4: ( '0' .. '9' )+
+            # kv.g:533:2: ( ( '0' .. '9' )+ )
+            # kv.g:533:4: ( '0' .. '9' )+
             pass 
-            # kv.g:532:4: ( '0' .. '9' )+
+            # kv.g:533:4: ( '0' .. '9' )+
             cnt12 = 0
             while True: #loop12
                 alt12 = 2
@@ -2309,7 +2328,7 @@ class kvLexer(Lexer):
 
 
                 if alt12 == 1:
-                    # kv.g:532:6: '0' .. '9'
+                    # kv.g:533:6: '0' .. '9'
                     pass 
                     self.matchRange(48, 57)
 
@@ -2341,10 +2360,10 @@ class kvLexer(Lexer):
             _type = STRING
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:535:2: ( ( 'r' | 'u' | 'ur' )? ( '\"' ( ESC | ~ ( '\\\\' | '\\n' | '\"' ) )* '\"' | '\\'' ( ESC | ~ ( '\\\\' | '\\n' | '\\'' ) )* '\\'' ) )
-            # kv.g:535:4: ( 'r' | 'u' | 'ur' )? ( '\"' ( ESC | ~ ( '\\\\' | '\\n' | '\"' ) )* '\"' | '\\'' ( ESC | ~ ( '\\\\' | '\\n' | '\\'' ) )* '\\'' )
+            # kv.g:536:2: ( ( 'r' | 'u' | 'ur' )? ( '\"' ( ESC | ~ ( '\\\\' | '\\n' | '\"' ) )* '\"' | '\\'' ( ESC | ~ ( '\\\\' | '\\n' | '\\'' ) )* '\\'' ) )
+            # kv.g:536:4: ( 'r' | 'u' | 'ur' )? ( '\"' ( ESC | ~ ( '\\\\' | '\\n' | '\"' ) )* '\"' | '\\'' ( ESC | ~ ( '\\\\' | '\\n' | '\\'' ) )* '\\'' )
             pass 
-            # kv.g:535:4: ( 'r' | 'u' | 'ur' )?
+            # kv.g:536:4: ( 'r' | 'u' | 'ur' )?
             alt13 = 4
             LA13_0 = self.input.LA(1)
 
@@ -2358,25 +2377,25 @@ class kvLexer(Lexer):
                 elif (LA13_2 == 34 or LA13_2 == 39) :
                     alt13 = 2
             if alt13 == 1:
-                # kv.g:535:5: 'r'
+                # kv.g:536:5: 'r'
                 pass 
                 self.match(114)
 
 
             elif alt13 == 2:
-                # kv.g:535:11: 'u'
+                # kv.g:536:11: 'u'
                 pass 
                 self.match(117)
 
 
             elif alt13 == 3:
-                # kv.g:535:17: 'ur'
+                # kv.g:536:17: 'ur'
                 pass 
                 self.match("ur")
 
 
 
-            # kv.g:536:3: ( '\"' ( ESC | ~ ( '\\\\' | '\\n' | '\"' ) )* '\"' | '\\'' ( ESC | ~ ( '\\\\' | '\\n' | '\\'' ) )* '\\'' )
+            # kv.g:537:3: ( '\"' ( ESC | ~ ( '\\\\' | '\\n' | '\"' ) )* '\"' | '\\'' ( ESC | ~ ( '\\\\' | '\\n' | '\\'' ) )* '\\'' )
             alt16 = 2
             LA16_0 = self.input.LA(1)
 
@@ -2390,10 +2409,10 @@ class kvLexer(Lexer):
                 raise nvae
 
             if alt16 == 1:
-                # kv.g:536:5: '\"' ( ESC | ~ ( '\\\\' | '\\n' | '\"' ) )* '\"'
+                # kv.g:537:5: '\"' ( ESC | ~ ( '\\\\' | '\\n' | '\"' ) )* '\"'
                 pass 
                 self.match(34)
-                # kv.g:536:9: ( ESC | ~ ( '\\\\' | '\\n' | '\"' ) )*
+                # kv.g:537:9: ( ESC | ~ ( '\\\\' | '\\n' | '\"' ) )*
                 while True: #loop14
                     alt14 = 3
                     LA14_0 = self.input.LA(1)
@@ -2405,13 +2424,13 @@ class kvLexer(Lexer):
 
 
                     if alt14 == 1:
-                        # kv.g:536:10: ESC
+                        # kv.g:537:10: ESC
                         pass 
                         self.mESC()
 
 
                     elif alt14 == 2:
-                        # kv.g:536:14: ~ ( '\\\\' | '\\n' | '\"' )
+                        # kv.g:537:14: ~ ( '\\\\' | '\\n' | '\"' )
                         pass 
                         if (0 <= self.input.LA(1) <= 9) or (11 <= self.input.LA(1) <= 33) or (35 <= self.input.LA(1) <= 91) or (93 <= self.input.LA(1) <= 65535):
                             self.input.consume()
@@ -2428,10 +2447,10 @@ class kvLexer(Lexer):
 
 
             elif alt16 == 2:
-                # kv.g:537:5: '\\'' ( ESC | ~ ( '\\\\' | '\\n' | '\\'' ) )* '\\''
+                # kv.g:538:5: '\\'' ( ESC | ~ ( '\\\\' | '\\n' | '\\'' ) )* '\\''
                 pass 
                 self.match(39)
-                # kv.g:537:10: ( ESC | ~ ( '\\\\' | '\\n' | '\\'' ) )*
+                # kv.g:538:10: ( ESC | ~ ( '\\\\' | '\\n' | '\\'' ) )*
                 while True: #loop15
                     alt15 = 3
                     LA15_0 = self.input.LA(1)
@@ -2443,13 +2462,13 @@ class kvLexer(Lexer):
 
 
                     if alt15 == 1:
-                        # kv.g:537:11: ESC
+                        # kv.g:538:11: ESC
                         pass 
                         self.mESC()
 
 
                     elif alt15 == 2:
-                        # kv.g:537:15: ~ ( '\\\\' | '\\n' | '\\'' )
+                        # kv.g:538:15: ~ ( '\\\\' | '\\n' | '\\'' )
                         pass 
                         if (0 <= self.input.LA(1) <= 9) or (11 <= self.input.LA(1) <= 38) or (40 <= self.input.LA(1) <= 91) or (93 <= self.input.LA(1) <= 65535):
                             self.input.consume()
@@ -2484,8 +2503,8 @@ class kvLexer(Lexer):
     def mESC(self, ):
 
         try:
-            # kv.g:541:5: ( '\\\\' . )
-            # kv.g:541:7: '\\\\' .
+            # kv.g:542:5: ( '\\\\' . )
+            # kv.g:542:7: '\\\\' .
             pass 
             self.match(92)
             self.matchAny()
@@ -2508,33 +2527,33 @@ class kvLexer(Lexer):
             _type = NEWLINE
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:543:9: ( ( ( '\\u000C' )? ( '\\r' )? '\\n' ) )
-            # kv.g:543:17: ( ( '\\u000C' )? ( '\\r' )? '\\n' )
+            # kv.g:544:9: ( ( ( '\\u000C' )? ( '\\r' )? '\\n' ) )
+            # kv.g:544:17: ( ( '\\u000C' )? ( '\\r' )? '\\n' )
             pass 
-            # kv.g:543:17: ( ( '\\u000C' )? ( '\\r' )? '\\n' )
-            # kv.g:543:18: ( '\\u000C' )? ( '\\r' )? '\\n'
+            # kv.g:544:17: ( ( '\\u000C' )? ( '\\r' )? '\\n' )
+            # kv.g:544:18: ( '\\u000C' )? ( '\\r' )? '\\n'
             pass 
-            # kv.g:543:18: ( '\\u000C' )?
+            # kv.g:544:18: ( '\\u000C' )?
             alt17 = 2
             LA17_0 = self.input.LA(1)
 
             if (LA17_0 == 12) :
                 alt17 = 1
             if alt17 == 1:
-                # kv.g:543:19: '\\u000C'
+                # kv.g:544:19: '\\u000C'
                 pass 
                 self.match(12)
 
 
 
-            # kv.g:543:29: ( '\\r' )?
+            # kv.g:544:29: ( '\\r' )?
             alt18 = 2
             LA18_0 = self.input.LA(1)
 
             if (LA18_0 == 13) :
                 alt18 = 1
             if alt18 == 1:
-                # kv.g:543:30: '\\r'
+                # kv.g:544:30: '\\r'
                 pass 
                 self.match(13)
 
@@ -2544,6 +2563,9 @@ class kvLexer(Lexer):
 
 
 
+            #action start
+            if self.nested > 0: _channel=HIDDEN
+            #action end
 
 
 
@@ -2565,10 +2587,10 @@ class kvLexer(Lexer):
             _type = WS
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:544:5: ( ( ' ' | '\\t' )+ )
-            # kv.g:544:9: ( ' ' | '\\t' )+
+            # kv.g:545:5: ( ( ' ' | '\\t' )+ )
+            # kv.g:545:9: ( ' ' | '\\t' )+
             pass 
-            # kv.g:544:9: ( ' ' | '\\t' )+
+            # kv.g:545:9: ( ' ' | '\\t' )+
             cnt19 = 0
             while True: #loop19
                 alt19 = 2
@@ -2622,8 +2644,8 @@ class kvLexer(Lexer):
             _type = NONE
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:554:2: ( 'None' )
-            # kv.g:554:6: 'None'
+            # kv.g:555:2: ( 'None' )
+            # kv.g:555:6: 'None'
             pass 
             self.match("None")
 
@@ -2647,17 +2669,17 @@ class kvLexer(Lexer):
             _type = WNAME
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:557:2: ( ( 'A' .. 'Z' ) ( 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' )* )
-            # kv.g:557:4: ( 'A' .. 'Z' ) ( 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' )*
+            # kv.g:558:2: ( ( 'A' .. 'Z' ) ( 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' )* )
+            # kv.g:558:4: ( 'A' .. 'Z' ) ( 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' )*
             pass 
-            # kv.g:557:4: ( 'A' .. 'Z' )
-            # kv.g:557:6: 'A' .. 'Z'
+            # kv.g:558:4: ( 'A' .. 'Z' )
+            # kv.g:558:6: 'A' .. 'Z'
             pass 
             self.matchRange(65, 90)
 
 
 
-            # kv.g:557:19: ( 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' )*
+            # kv.g:558:19: ( 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' )*
             while True: #loop20
                 alt20 = 2
                 LA20_0 = self.input.LA(1)
@@ -2701,23 +2723,23 @@ class kvLexer(Lexer):
             _type = CANVAS
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:560:2: ( 'canvas' | 'canvas.before' | 'canvas.after' )
+            # kv.g:561:2: ( 'canvas' | 'canvas.before' | 'canvas.after' )
             alt21 = 3
             alt21 = self.dfa21.predict(self.input)
             if alt21 == 1:
-                # kv.g:560:4: 'canvas'
+                # kv.g:561:4: 'canvas'
                 pass 
                 self.match("canvas")
 
 
             elif alt21 == 2:
-                # kv.g:560:15: 'canvas.before'
+                # kv.g:561:15: 'canvas.before'
                 pass 
                 self.match("canvas.before")
 
 
             elif alt21 == 3:
-                # kv.g:560:33: 'canvas.after'
+                # kv.g:561:33: 'canvas.after'
                 pass 
                 self.match("canvas.after")
 
@@ -2740,8 +2762,8 @@ class kvLexer(Lexer):
             _type = NAME
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:563:2: ( ( 'a' .. 'z' | '_' ) ( 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' )* )
-            # kv.g:563:4: ( 'a' .. 'z' | '_' ) ( 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' )*
+            # kv.g:564:2: ( ( 'a' .. 'z' | '_' ) ( 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' )* )
+            # kv.g:564:4: ( 'a' .. 'z' | '_' ) ( 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' )*
             pass 
             if self.input.LA(1) == 95 or (97 <= self.input.LA(1) <= 122):
                 self.input.consume()
@@ -2750,7 +2772,7 @@ class kvLexer(Lexer):
                 self.recover(mse)
                 raise mse
 
-            # kv.g:563:25: ( 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' )*
+            # kv.g:564:25: ( 'A' .. 'Z' | 'a' .. 'z' | '_' | '0' .. '9' )*
             while True: #loop22
                 alt22 = 2
                 LA22_0 = self.input.LA(1)
@@ -2794,12 +2816,12 @@ class kvLexer(Lexer):
             _type = DIRECTIVETEXT
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:566:2: ( HASH COLON (~ '\\n' )* )
-            # kv.g:566:4: HASH COLON (~ '\\n' )*
+            # kv.g:567:2: ( HASH COLON (~ '\\n' )* )
+            # kv.g:567:4: HASH COLON (~ '\\n' )*
             pass 
             self.mHASH()
             self.mCOLON()
-            # kv.g:566:15: (~ '\\n' )*
+            # kv.g:567:15: (~ '\\n' )*
             while True: #loop23
                 alt23 = 2
                 LA23_0 = self.input.LA(1)
@@ -2809,7 +2831,7 @@ class kvLexer(Lexer):
 
 
                 if alt23 == 1:
-                    # kv.g:566:16: ~ '\\n'
+                    # kv.g:567:16: ~ '\\n'
                     pass 
                     if (0 <= self.input.LA(1) <= 9) or (11 <= self.input.LA(1) <= 65535):
                         self.input.consume()
@@ -2843,11 +2865,11 @@ class kvLexer(Lexer):
             _type = COMMENTTEXT
             _channel = DEFAULT_CHANNEL
 
-            # kv.g:569:2: ( HASH (~ '\\n' )* )
-            # kv.g:569:4: HASH (~ '\\n' )*
+            # kv.g:570:2: ( HASH (~ '\\n' )* )
+            # kv.g:570:4: HASH (~ '\\n' )*
             pass 
             self.mHASH()
-            # kv.g:569:9: (~ '\\n' )*
+            # kv.g:570:9: (~ '\\n' )*
             while True: #loop24
                 alt24 = 2
                 LA24_0 = self.input.LA(1)
@@ -2857,7 +2879,7 @@ class kvLexer(Lexer):
 
 
                 if alt24 == 1:
-                    # kv.g:569:10: ~ '\\n'
+                    # kv.g:570:10: ~ '\\n'
                     pass 
                     if (0 <= self.input.LA(1) <= 9) or (11 <= self.input.LA(1) <= 65535):
                         self.input.consume()
@@ -2888,8 +2910,8 @@ class kvLexer(Lexer):
     def mHASH(self, ):
 
         try:
-            # kv.g:572:6: ( '#' )
-            # kv.g:572:17: '#'
+            # kv.g:573:6: ( '#' )
+            # kv.g:573:17: '#'
             pass 
             self.match(35)
 
@@ -3551,19 +3573,19 @@ class kvLexer(Lexer):
 
     DFA25_eot = DFA.unpack(
         u"\1\uffff\15\61\7\uffff\1\111\1\113\1\116\1\121\1\123\1\125\1\131"
-        u"\1\134\1\136\1\140\3\uffff\1\142\2\uffff\1\144\1\uffff\2\61\2\150"
+        u"\1\134\1\136\1\140\3\uffff\1\142\2\uffff\1\143\1\uffff\2\61\2\150"
         u"\1\61\3\uffff\1\60\2\uffff\1\161\11\61\1\176\1\177\1\u0080\1\u0082"
         u"\10\61\4\uffff\1\u008c\2\uffff\1\u008e\10\uffff\1\u0090\2\uffff"
-        u"\1\u0092\7\uffff\1\u0093\1\uffff\1\u0095\1\61\2\uffff\1\u0093\1"
-        u"\150\3\uffff\1\150\1\61\1\60\1\uffff\1\u009d\2\61\1\u00a1\10\61"
-        u"\3\uffff\1\61\1\uffff\1\u00ab\2\61\1\u00ae\1\61\1\u00b0\2\61\13"
-        u"\uffff\1\u00b5\1\150\1\u0093\2\uffff\1\u0093\1\60\1\uffff\1\u009d"
+        u"\1\u0092\10\uffff\1\u0093\1\u0095\1\61\2\uffff\1\u0093\1\150\3"
+        u"\uffff\1\150\1\61\1\60\1\uffff\1\u009d\2\61\1\u00a1\10\61\3\uffff"
+        u"\1\61\1\uffff\1\u00ab\2\61\1\u00ae\1\61\1\u00b0\2\61\13\uffff\1"
+        u"\u00b5\1\150\1\uffff\1\u0093\1\uffff\1\u0093\1\60\1\uffff\1\u009d"
         u"\1\61\1\u00bb\1\uffff\4\61\1\u00c0\1\61\1\u00c2\1\u00c3\1\61\1"
-        u"\uffff\1\61\1\u00c6\1\uffff\1\61\1\uffff\2\61\1\uffff\1\u0093\3"
-        u"\uffff\1\u0093\1\u00cc\1\u00cd\1\uffff\1\u00ce\2\61\1\u00d1\1\uffff"
-        u"\1\61\2\uffff\1\61\1\u00d4\1\uffff\2\61\1\u00d7\1\uffff\1\u0093"
-        u"\3\uffff\1\61\1\u00d9\1\uffff\1\u00da\1\u00db\1\uffff\1\61\1\u00dd"
-        u"\1\uffff\1\61\3\uffff\1\u00df\1\uffff\1\u00e0\2\uffff"
+        u"\uffff\1\61\1\u00c6\1\uffff\1\61\1\uffff\2\61\1\uffff\1\u0093\2"
+        u"\uffff\1\u0093\1\uffff\1\u00cc\1\u00cd\1\uffff\1\u00ce\2\61\1\u00d1"
+        u"\1\uffff\1\61\2\uffff\1\61\1\u00d4\1\uffff\2\61\1\u00d7\1\uffff"
+        u"\1\u0093\3\uffff\1\61\1\u00d9\1\uffff\1\u00da\1\u00db\1\uffff\1"
+        u"\61\1\u00dd\1\uffff\1\61\3\uffff\1\u00df\1\uffff\1\u00e0\2\uffff"
         )
 
     DFA25_eof = DFA.unpack(
@@ -3576,17 +3598,16 @@ class kvLexer(Lexer):
         u"\1\75\2\uffff\1\60\1\uffff\1\162\1\157\2\56\1\42\3\uffff\1\157"
         u"\2\uffff\1\72\1\151\1\163\1\154\1\145\2\156\1\151\1\143\1\151\4"
         u"\60\1\144\1\151\1\164\1\162\1\156\1\171\1\155\1\145\4\uffff\1\75"
-        u"\2\uffff\1\75\10\uffff\1\75\2\uffff\1\75\7\uffff\1\60\1\uffff\1"
-        u"\60\1\164\1\60\1\uffff\1\60\1\56\1\53\2\uffff\1\56\1\42\1\156\1"
-        u"\uffff\1\0\1\156\1\163\1\60\1\141\1\164\1\166\1\163\1\143\2\145"
-        u"\1\146\3\uffff\1\145\1\uffff\1\60\1\154\1\150\1\60\1\141\1\60\1"
-        u"\142\1\154\11\uffff\1\53\1\uffff\3\60\1\53\2\60\1\145\1\uffff\1"
-        u"\0\1\164\1\60\1\uffff\1\153\1\151\1\141\1\145\1\60\1\160\2\60\1"
-        u"\162\1\uffff\1\145\1\60\1\uffff\1\154\1\uffff\2\144\2\60\1\uffff"
-        u"\1\53\4\60\1\uffff\1\60\1\156\1\163\1\60\1\uffff\1\164\2\uffff"
-        u"\1\164\1\60\1\uffff\1\154\1\141\3\60\3\uffff\1\165\1\60\1\uffff"
-        u"\2\60\1\uffff\1\171\1\60\1\uffff\1\145\3\uffff\1\60\1\uffff\1\60"
-        u"\2\uffff"
+        u"\2\uffff\1\75\10\uffff\1\75\2\uffff\1\75\10\uffff\2\60\1\164\1"
+        u"\60\1\uffff\1\60\1\56\2\uffff\1\53\1\56\1\42\1\156\1\uffff\1\0"
+        u"\1\156\1\163\1\60\1\141\1\164\1\166\1\163\1\143\2\145\1\146\3\uffff"
+        u"\1\145\1\uffff\1\60\1\154\1\150\1\60\1\141\1\60\1\142\1\154\11"
+        u"\uffff\1\53\1\uffff\2\60\1\53\3\60\1\145\1\uffff\1\0\1\164\1\60"
+        u"\1\uffff\1\153\1\151\1\141\1\145\1\60\1\160\2\60\1\162\1\uffff"
+        u"\1\145\1\60\1\uffff\1\154\1\uffff\2\144\2\60\1\uffff\2\60\1\53"
+        u"\2\60\1\uffff\1\60\1\156\1\163\1\60\1\uffff\1\164\2\uffff\1\164"
+        u"\1\60\1\uffff\1\154\1\141\3\60\3\uffff\1\165\1\60\1\uffff\2\60"
+        u"\1\uffff\1\171\1\60\1\uffff\1\145\3\uffff\1\60\1\uffff\1\60\2\uffff"
         )
 
     DFA25_max = DFA.unpack(
@@ -3595,14 +3616,14 @@ class kvLexer(Lexer):
         u"\71\1\uffff\1\162\1\157\1\170\1\154\1\162\3\uffff\1\157\2\uffff"
         u"\1\72\1\151\1\163\1\154\1\145\2\156\1\151\1\145\1\163\4\172\1\144"
         u"\1\151\1\164\1\162\1\156\1\171\1\155\1\145\4\uffff\1\75\2\uffff"
-        u"\1\75\10\uffff\1\75\2\uffff\1\75\7\uffff\1\152\1\uffff\1\172\1"
-        u"\164\1\146\1\uffff\1\152\1\154\1\71\2\uffff\1\154\1\47\1\156\1"
-        u"\uffff\1\uffff\1\156\1\163\1\172\1\141\1\164\1\166\1\163\1\143"
-        u"\2\145\1\146\3\uffff\1\145\1\uffff\1\172\1\154\1\150\1\172\1\141"
-        u"\1\172\1\142\1\154\11\uffff\1\71\1\uffff\1\172\1\154\1\152\2\71"
-        u"\1\152\1\145\1\uffff\1\uffff\1\164\1\172\1\uffff\1\153\1\151\1"
-        u"\141\1\145\1\172\1\160\2\172\1\162\1\uffff\1\145\1\172\1\uffff"
-        u"\1\154\1\uffff\2\144\1\71\1\152\1\uffff\2\71\1\152\2\172\1\uffff"
+        u"\1\75\10\uffff\1\75\2\uffff\1\75\10\uffff\1\152\1\172\1\164\1\146"
+        u"\1\uffff\1\152\1\154\2\uffff\1\71\1\154\1\47\1\156\1\uffff\1\uffff"
+        u"\1\156\1\163\1\172\1\141\1\164\1\166\1\163\1\143\2\145\1\146\3"
+        u"\uffff\1\145\1\uffff\1\172\1\154\1\150\1\172\1\141\1\172\1\142"
+        u"\1\154\11\uffff\1\71\1\uffff\1\172\1\154\1\71\1\152\1\71\1\152"
+        u"\1\145\1\uffff\1\uffff\1\164\1\172\1\uffff\1\153\1\151\1\141\1"
+        u"\145\1\172\1\160\2\172\1\162\1\uffff\1\145\1\172\1\uffff\1\154"
+        u"\1\uffff\2\144\1\71\1\152\1\uffff\1\71\1\152\1\71\2\172\1\uffff"
         u"\1\172\1\156\1\163\1\172\1\uffff\1\164\2\uffff\1\164\1\172\1\uffff"
         u"\1\154\1\141\1\172\1\71\1\152\3\uffff\1\165\1\172\1\uffff\2\172"
         u"\1\uffff\1\171\1\172\1\uffff\1\145\3\uffff\1\172\1\uffff\1\172"
@@ -3614,18 +3635,18 @@ class kvLexer(Lexer):
         u"\1\52\1\uffff\1\54\1\56\1\uffff\1\103\5\uffff\1\113\1\114\1\115"
         u"\1\uffff\1\117\1\121\26\uffff\1\64\1\36\1\65\1\37\1\uffff\1\67"
         u"\1\40\1\uffff\1\71\1\41\1\72\1\42\1\74\1\43\1\57\1\60\1\uffff\1"
-        u"\44\1\62\1\uffff\1\45\1\55\1\46\1\73\1\47\1\75\1\53\1\uffff\1\102"
-        u"\3\uffff\1\111\3\uffff\1\110\1\112\3\uffff\1\123\14\uffff\1\10"
-        u"\1\12\1\24\1\uffff\1\22\10\uffff\1\100\1\66\1\101\1\70\1\76\1\61"
-        u"\1\77\1\63\1\107\1\uffff\1\105\7\uffff\1\122\3\uffff\1\2\11\uffff"
-        u"\1\104\2\uffff\1\16\1\uffff\1\17\4\uffff\1\106\5\uffff\1\3\4\uffff"
-        u"\1\7\1\uffff\1\13\1\14\2\uffff\1\21\5\uffff\1\116\1\1\1\4\2\uffff"
-        u"\1\6\2\uffff\1\15\2\uffff\1\26\1\uffff\1\120\1\23\1\11\1\uffff"
-        u"\1\25\1\uffff\1\20\1\5"
+        u"\44\1\62\1\uffff\1\45\1\55\1\46\1\73\1\47\1\75\1\53\1\102\4\uffff"
+        u"\1\111\2\uffff\1\110\1\112\4\uffff\1\123\14\uffff\1\10\1\12\1\24"
+        u"\1\uffff\1\22\10\uffff\1\100\1\66\1\101\1\70\1\76\1\61\1\77\1\63"
+        u"\1\107\1\uffff\1\105\7\uffff\1\122\3\uffff\1\2\11\uffff\1\104\2"
+        u"\uffff\1\16\1\uffff\1\17\4\uffff\1\106\5\uffff\1\3\4\uffff\1\7"
+        u"\1\uffff\1\13\1\14\2\uffff\1\21\5\uffff\1\116\1\1\1\4\2\uffff\1"
+        u"\6\2\uffff\1\15\2\uffff\1\26\1\uffff\1\120\1\23\1\11\1\uffff\1"
+        u"\25\1\uffff\1\20\1\5"
         )
 
     DFA25_special = DFA.unpack(
-        u"\162\uffff\1\0\53\uffff\1\1\102\uffff"
+        u"\162\uffff\1\1\53\uffff\1\0\102\uffff"
         )
 
             
@@ -3672,15 +3693,15 @@ class kvLexer(Lexer):
         DFA.unpack(u"\1\141"),
         DFA.unpack(u""),
         DFA.unpack(u""),
-        DFA.unpack(u"\12\143"),
+        DFA.unpack(u"\12\144"),
         DFA.unpack(u""),
         DFA.unpack(u"\1\145"),
         DFA.unpack(u"\1\146"),
-        DFA.unpack(u"\1\151\1\uffff\12\152\13\uffff\1\153\4\uffff\1\155"
-        u"\1\uffff\1\154\13\uffff\1\147\14\uffff\1\153\4\uffff\1\155\1\uffff"
-        u"\1\154\13\uffff\1\147"),
-        DFA.unpack(u"\1\151\1\uffff\12\156\13\uffff\1\153\4\uffff\1\155"
-        u"\1\uffff\1\154\30\uffff\1\153\4\uffff\1\155\1\uffff\1\154"),
+        DFA.unpack(u"\1\151\1\uffff\12\152\13\uffff\1\155\4\uffff\1\154"
+        u"\1\uffff\1\153\13\uffff\1\147\14\uffff\1\155\4\uffff\1\154\1\uffff"
+        u"\1\153\13\uffff\1\147"),
+        DFA.unpack(u"\1\151\1\uffff\12\156\13\uffff\1\155\4\uffff\1\154"
+        u"\1\uffff\1\153\30\uffff\1\155\4\uffff\1\154\1\uffff\1\153"),
         DFA.unpack(u"\1\54\4\uffff\1\54\112\uffff\1\157"),
         DFA.unpack(u""),
         DFA.unpack(u""),
@@ -3738,22 +3759,22 @@ class kvLexer(Lexer):
         DFA.unpack(u""),
         DFA.unpack(u""),
         DFA.unpack(u""),
-        DFA.unpack(u"\12\143\13\uffff\1\u0094\4\uffff\1\155\32\uffff\1\u0094"
-        u"\4\uffff\1\155"),
         DFA.unpack(u""),
+        DFA.unpack(u"\12\144\13\uffff\1\u0094\4\uffff\1\154\32\uffff\1\u0094"
+        u"\4\uffff\1\154"),
         DFA.unpack(u"\12\61\7\uffff\32\61\4\uffff\1\61\1\uffff\32\61"),
         DFA.unpack(u"\1\u0096"),
         DFA.unpack(u"\12\u0097\7\uffff\6\u0097\32\uffff\6\u0097"),
         DFA.unpack(u""),
-        DFA.unpack(u"\12\u0098\13\uffff\1\u0099\4\uffff\1\155\32\uffff\1"
-        u"\u0099\4\uffff\1\155"),
-        DFA.unpack(u"\1\151\1\uffff\12\152\13\uffff\1\153\4\uffff\1\155"
-        u"\1\uffff\1\154\30\uffff\1\153\4\uffff\1\155\1\uffff\1\154"),
+        DFA.unpack(u"\12\u0099\13\uffff\1\u0098\4\uffff\1\154\32\uffff\1"
+        u"\u0098\4\uffff\1\154"),
+        DFA.unpack(u"\1\151\1\uffff\12\152\13\uffff\1\155\4\uffff\1\154"
+        u"\1\uffff\1\153\30\uffff\1\155\4\uffff\1\154\1\uffff\1\153"),
+        DFA.unpack(u""),
+        DFA.unpack(u""),
         DFA.unpack(u"\1\u009a\1\uffff\1\u009a\2\uffff\12\u009b"),
-        DFA.unpack(u""),
-        DFA.unpack(u""),
-        DFA.unpack(u"\1\151\1\uffff\12\156\13\uffff\1\153\4\uffff\1\155"
-        u"\1\uffff\1\154\30\uffff\1\153\4\uffff\1\155\1\uffff\1\154"),
+        DFA.unpack(u"\1\151\1\uffff\12\156\13\uffff\1\155\4\uffff\1\154"
+        u"\1\uffff\1\153\30\uffff\1\155\4\uffff\1\154\1\uffff\1\153"),
         DFA.unpack(u"\1\54\4\uffff\1\54"),
         DFA.unpack(u"\1\u009c"),
         DFA.unpack(u""),
@@ -3794,13 +3815,13 @@ class kvLexer(Lexer):
         DFA.unpack(u"\1\u00b3\1\uffff\1\u00b3\2\uffff\12\u00b4"),
         DFA.unpack(u""),
         DFA.unpack(u"\12\61\7\uffff\32\61\4\uffff\1\61\1\uffff\32\61"),
-        DFA.unpack(u"\12\u0097\7\uffff\6\u0097\3\uffff\1\155\1\uffff\1\154"
-        u"\24\uffff\6\u0097\3\uffff\1\155\1\uffff\1\154"),
-        DFA.unpack(u"\12\u0098\13\uffff\1\u00b6\4\uffff\1\155\32\uffff\1"
-        u"\u00b6\4\uffff\1\155"),
-        DFA.unpack(u"\1\u00b7\1\uffff\1\u00b7\2\uffff\12\u00b8"),
+        DFA.unpack(u"\12\u0097\7\uffff\6\u0097\3\uffff\1\154\1\uffff\1\153"
+        u"\24\uffff\6\u0097\3\uffff\1\154\1\uffff\1\153"),
+        DFA.unpack(u"\1\u00b6\1\uffff\1\u00b6\2\uffff\12\u00b7"),
+        DFA.unpack(u"\12\u0099\13\uffff\1\u00b8\4\uffff\1\154\32\uffff\1"
+        u"\u00b8\4\uffff\1\154"),
         DFA.unpack(u"\12\u009b"),
-        DFA.unpack(u"\12\u009b\20\uffff\1\155\37\uffff\1\155"),
+        DFA.unpack(u"\12\u009b\20\uffff\1\154\37\uffff\1\154"),
         DFA.unpack(u"\1\u00b9"),
         DFA.unpack(u""),
         DFA.unpack(u"\12\u009e\1\uffff\ufff5\u009e"),
@@ -3825,11 +3846,11 @@ class kvLexer(Lexer):
         DFA.unpack(u"\1\u00c8"),
         DFA.unpack(u"\1\u00c9"),
         DFA.unpack(u"\12\u00b4"),
-        DFA.unpack(u"\12\u00b4\20\uffff\1\155\37\uffff\1\155"),
+        DFA.unpack(u"\12\u00b4\20\uffff\1\154\37\uffff\1\154"),
         DFA.unpack(u""),
+        DFA.unpack(u"\12\u00b7"),
+        DFA.unpack(u"\12\u00b7\20\uffff\1\154\37\uffff\1\154"),
         DFA.unpack(u"\1\u00ca\1\uffff\1\u00ca\2\uffff\12\u00cb"),
-        DFA.unpack(u"\12\u00b8"),
-        DFA.unpack(u"\12\u00b8\20\uffff\1\155\37\uffff\1\155"),
         DFA.unpack(u"\12\60\7\uffff\32\60\4\uffff\1\60\1\uffff\32\60"),
         DFA.unpack(u"\12\61\7\uffff\32\61\4\uffff\1\61\1\uffff\32\61"),
         DFA.unpack(u""),
@@ -3848,7 +3869,7 @@ class kvLexer(Lexer):
         DFA.unpack(u"\1\u00d6"),
         DFA.unpack(u"\12\61\7\uffff\32\61\4\uffff\1\61\1\uffff\32\61"),
         DFA.unpack(u"\12\u00cb"),
-        DFA.unpack(u"\12\u00cb\20\uffff\1\155\37\uffff\1\155"),
+        DFA.unpack(u"\12\u00cb\20\uffff\1\154\37\uffff\1\154"),
         DFA.unpack(u""),
         DFA.unpack(u""),
         DFA.unpack(u""),
@@ -3889,10 +3910,10 @@ class kvLexer(Lexer):
             _s = s
 
             if s == 0: 
-                LA25_114 = input.LA(1)
+                LA25_158 = input.LA(1)
 
                 s = -1
-                if ((0 <= LA25_114 <= 9) or (11 <= LA25_114 <= 65535)):
+                if ((0 <= LA25_158 <= 9) or (11 <= LA25_158 <= 65535)):
                     s = 158
 
                 else:
@@ -3901,10 +3922,10 @@ class kvLexer(Lexer):
                 if s >= 0:
                     return s
             elif s == 1: 
-                LA25_158 = input.LA(1)
+                LA25_114 = input.LA(1)
 
                 s = -1
-                if ((0 <= LA25_158 <= 9) or (11 <= LA25_158 <= 65535)):
+                if ((0 <= LA25_114 <= 9) or (11 <= LA25_114 <= 65535)):
                     s = 158
 
                 else:

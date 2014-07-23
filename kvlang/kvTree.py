@@ -177,6 +177,12 @@ class PropertyNode(Node):
 			return '\n' + '\n'.join('\t' + str(n) for n in self.valuenode.children)
 		return str(self.valuenode)
 	
+	@property
+	def parsevalue(self):
+		if self.multiline:
+			return '\n'.join(str(n) for n in self.valuenode.children)
+		return str(self.valuenode)
+	
 	def __str__(self):
 		return '%s: %s' % (self.name, self.value)
 

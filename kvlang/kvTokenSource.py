@@ -134,7 +134,7 @@ class kvTokenSource(antlr3.TokenSource):
 				)
 			
 			if hiddenTokens is not None:
-				tokens.extend(hiddenTokens)
+				self.tokens.extend(hiddenTokens)
 
 			self.lastTokenAddedIndex = t.getTokenIndex()
 			self.tokens.append(t)

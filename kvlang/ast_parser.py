@@ -14,7 +14,7 @@ from kvlang.kvTree import DirectiveNode, WidgetNode, WidgetLikeNode, PropertyNod
 def load_ast(self, ast, **kwargs):
 	kwargs.setdefault('rulesonly', False)
 	self._current_filename = fn = kwargs.get('filename', None)
-	
+
 	if fn in self.files:
 		Logger.warning(
 			'kvlang: The file {} is loaded multiple times, '
@@ -260,7 +260,7 @@ class ASTParser(Parser):
 			for child in node.interesting_children():
 				if isinstance(child, PropertyNode):
 					name = child.name
-					value = child.value
+					value = child.parsevalue
 					if name == 'id':
 						if len(value) == 0:
 							raise ParserException(self, ln, 'Empty id')
