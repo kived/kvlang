@@ -3,9 +3,9 @@ kivy.require('1.8.1')
 
 from kivy.app import App
 
-from kvlang.ast import AST
+from kvlang.ast import Builder
 
-root = AST.load_string('''
+root = Builder.load_string('''
 #:kivy 1.0
 #:set txt 'hi'
 

@@ -2,14 +2,17 @@ from copy import copy
 from functools import partial
 from types import CodeType
 import sys
+import weakref
 from kivy.compat import iteritems, iterkeys
 from kivy.factory import Factory
 from kivy.lang import global_idmap, BuilderException, ParserRuleProperty, create_handler, custom_callback, Parser, \
-	ParserException, ParserRule
+	ParserException, ParserRule as kivy_ParserRule, Builder as kivy_Builder
 from kivy.logger import Logger
 from kivy.utils import QueryDict
 from kvlang.kvTree import DirectiveNode, WidgetNode, WidgetLikeNode, PropertyNode, CanvasNode, InstructionNode
 
+class ParserRule(kivy_ParserRule):
+	__slots__ = ('ast_node', '__weakref__')
 
 def load_ast(self, ast, **kwargs):
 	kwargs.setdefault('rulesonly', False)
@@ -21,7 +24,7 @@ def load_ast(self, ast, **kwargs):
 		    'you might have unwanted behaviors.'.format(fn))
 	
 	try:
-		parser = ast.get_parser_result()
+		parser = ASTParser(ast=ast)
 	
 		self.rules.extend(parser.rules)
 		self._clear_matchcache()
@@ -44,16 +47,18 @@ def load_ast(self, ast, **kwargs):
 		
 		if parser.root:
 			widget = Factory.get(parser.root.name)()
+			# widget.ast_node = weakref.proxy(parser.root)
+			# parser.root.ast_widget = weakref.proxy(widget)
 			# widget._ast_node = weakref.proxy(ast.tree)
 			#ast.tree._ast_widget = widget.proxy_ref
-			#_apply_ast_rule(self, widget, ast.tree, parser.root, parser.root)
+			#_apply_ast_rule(self, widget, parser.root, parser.root)
 			self._apply_rule(widget, parser.root, parser.root)
 			return widget
 	finally:
 		self._current_filename = None
 
 
-def _apply_ast_rule(self, widget, node, rule, rootrule, template_ctx=None):
+def _apply_ast_rule(self, widget, rule, rootrule, template_ctx=None):
 	assert (rule not in self.rulectx)
 	self.rulectx[rule] = rctx = {
 		'ids': {'root': widget.proxy_ref},
@@ -93,6 +98,12 @@ def _apply_ast_rule(self, widget, node, rule, rootrule, template_ctx=None):
 			self._build_canvas(widget.canvas, widget,
 			                   rule.canvas_after, rootrule)
 
+	if hasattr(rule, 'ast_node'):
+		print widget, 'ast node', rule.ast_node
+		widget.ast_node = rule.ast_node
+		widget.ast_node.ast_widget = weakref.proxy(widget)
+		print widget.ast_node, 'widget', widget.ast_node.ast_widget
+
 	Factory_get = Factory.get
 	Factory_is_template = Factory.is_template
 	for crule in rule.children:
@@ -131,7 +142,7 @@ def _apply_ast_rule(self, widget, node, rule, rootrule, template_ctx=None):
 			child = cls(__no_builder=True)
 			widget.add_widget(child)
 			self.apply(child)
-			_apply_ast_rule(self, child, None, crule, rootrule)
+			_apply_ast_rule(self, child, crule, rootrule)
 
 	if rule.properties:
 		rctx['set'].append((widget.proxy_ref, list(rule.properties.values())))
@@ -187,6 +198,7 @@ def _apply_ast_rule(self, widget, node, rule, rootrule, template_ctx=None):
 
 	del self.rulectx[rootrule]
 
+kivy_Builder._apply_rule = partial(_apply_ast_rule, kivy_Builder)
 
 class ASTParser(Parser):
 	
@@ -222,18 +234,18 @@ class ASTParser(Parser):
 		
 		rules = self.parse_tree(ast.tree)
 
-		def print_obj(obj, f):
-			print >> f, ('\t' * obj.level) + str(obj)
-			for pn, pv in obj.properties.iteritems():
-				print >> f, ('\t' * obj.level) + '-- ' + str(pn) + ': ' + str(pv)
-			for h in obj.handlers:
-				print >> f, ('\t' * obj.level) + '-- ' + str(h)
-			for c in obj.children:
-				print_obj(c, f)
-			pass
-
-		for obj in rules:
-			print_obj(obj, file('kvparse.out', 'w+'))
+		# def print_obj(obj, f):
+		# 	print >> f, ('\t' * obj.level) + str(obj)
+		# 	for pn, pv in obj.properties.iteritems():
+		# 		print >> f, ('\t' * obj.level) + '-- ' + str(pn) + ': ' + str(pv)
+		# 	for h in obj.handlers:
+		# 		print >> f, ('\t' * obj.level) + '-- ' + str(h)
+		# 	for c in obj.children:
+		# 		print_obj(c, f)
+		# 	pass
+		# 
+		# for obj in rules:
+		# 	print_obj(obj, file('kvparse.out', 'w+'))
 	
 		for rule in rules:
 				rule.precompile()
@@ -256,6 +268,9 @@ class ASTParser(Parser):
 
 			current_object = ParserRule(self, ln, name, level)
 			objects.append(current_object)
+			
+			node.ast_rule = weakref.proxy(current_object)
+			current_object.ast_node = weakref.proxy(node)
 			
 			for child in node.interesting_children():
 				if isinstance(child, PropertyNode):

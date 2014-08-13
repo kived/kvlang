@@ -12,7 +12,7 @@ from kivy.uix.treeview import TreeViewLabel
 from kivy.properties import StringProperty, ObjectProperty
 from kivy.logger import Logger
 
-from kvlang.ast import AST
+from kvlang.observer import ASTObserver
 
 root_kv = '''
 <AstNode>:
@@ -137,7 +137,7 @@ class AstApp(App):
 	def __init__(self, filename):
 		super(AstApp, self).__init__()
 		self.ast_file = filename
-		self.ast = AST()
+		self.ast = ASTObserver()
 		self.selected = None
 	
 	def build(self):
