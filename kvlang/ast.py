@@ -32,6 +32,9 @@ class kvOutput(object):
 		self.tokens = tokens
 		self.source = source
 
+		if not tree:
+			raise Exception('cannot generate output with no tree')
+
 		start_time = time()
 		if tree.isNil():
 			self.build(tree.getChildren())
@@ -218,7 +221,9 @@ class _ASTBase(object):
 		self._generate_ast()
 
 	def compile(self):
-		output = str(self.compiler(self.tree, self.tokens, self.source, self.logger))
+		output = ''
+		if self.tree:
+			output = str(self.compiler(self.tree, self.tokens, self.source, self.logger))
 		return output
 	
 	def dispatch_tree_changed(self):
@@ -246,7 +251,10 @@ class _ASTBase(object):
 				raise IndexError(index)
 
 			children = parent.children[:]
-			children.remove(node)
+			try:
+				children.remove(node)
+			except ValueError:
+				pass
 			children = children[:index] + [node] + children[index:]
 			parent.children = children
 			parent.freshenParentAndChildIndexes()
@@ -351,12 +359,12 @@ class ASTBuilder(object):
 		return self._create_ast(source=source)
 	
 	def load_ast(self, tree, **kwargs):
-		if not self._builder or self._load_ast:
+		if not self._builder:
 			from kivy.lang import Builder
 			from kvlang.ast_parser import load_ast
 			self._builder = Builder
 			self._load_ast = load_ast
-		return self._load_ast(self._builder, tree, **kwargs)
+		return tree, self._load_ast(self._builder, tree, **kwargs)
 
 
 Builder = ASTBuilder()
