@@ -164,13 +164,6 @@ class kvTokenSource(antlr3.TokenSource):
 			t = self.stream.LT(1)
 			self.stream.consume()
 
-		hiddenTokens = self.stream.getTokens(
-			self.lastTokenAddedIndex + 1,
-			t.getTokenIndex() - 1
-			)
-		if hiddenTokens is not None:
-			self.tokens.extend(hiddenTokens)
-
 		self.lastTokenAddedIndex = t.getTokenIndex()
 
 		# compute cpos as the char pos of next non-WS token in line

@@ -1,3 +1,4 @@
+import os
 from time import time
 import re
 import antlr3
@@ -8,20 +9,41 @@ from kvlang.kvTokenLexer import kvTokenLexer
 from kvlang.kvTree import Node, WidgetLikeNode, PropertyNode, PythonNode, CanvasNode, WidgetNode
 
 
+def loadtokens():
+	tokens = {}
+	for line in open(os.path.join(os.path.dirname(__file__), 'kv.tokens')):
+		name, _, id = line.partition('=')
+		tokens[int(id)] = name
+	return tokens
+
+tokens = loadtokens()
+
+
+def printtoken(token):
+	try:
+		tval = str(token).split(',')
+		toktype = tokens[int((tval[-1] if tval[-1][0] == '<' else tval[-2])[1:-1])]
+		print toktype + '\t' + ','.join(tval)
+	except Exception:
+		print 'UNKNOWN\t' + str(token)
+
+
 def parsestring(kvstring, logger=None):
 	start_time = time()
 	cStream = antlr3.ANTLRStringStream(kvstring)
 	lexer = kvTokenLexer(cStream)
-	tokens = antlr3.CommonTokenStream(lexer)
-	parser = kvParser(tokens)
+	tokenstream = antlr3.CommonTokenStream(lexer)
+	for token in tokenstream.getTokens():
+		printtoken(token)
+	parser = kvParser(tokenstream)
 
-	Node.set_source(tokens.getTokens(), kvstring)
+	Node.set_source(tokenstream.getTokens(), kvstring)
 
 	result = parser.kvfile()
 	finish_time = time()
 	if logger:
 		logger('debug', 'kvlang: parsed kv file in %0.4fs' % (finish_time - start_time))
-	return tokens, result, parser.root_node
+	return tokenstream, result, parser.root_node
 
 
 class kvOutput(object):

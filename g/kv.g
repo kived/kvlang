@@ -166,10 +166,10 @@ template_rule
 	|	'[' a=class_widget ']' COLON? widget_body -> ^(TEMPLATERULE<TemplateRuleNode>[$a.tree] widget_body) ;
 
 widget_body
-    : NEWLINE! INDENT! (stmt)+ DEDENT! ;
+    : NEWLINE! blank* INDENT! (stmt)+ DEDENT! ;
 
 canvas_body
-	: NEWLINE! INDENT! (canvas_stmt)+ DEDENT! ;
+	: NEWLINE! blank* INDENT! (canvas_stmt)+ DEDENT! ;
 
 stmt
 	: widget
@@ -188,7 +188,7 @@ instruction
 	| WNAME COLON? instruction_body -> ^(INSTRUCTION<InstructionNode>[$WNAME] instruction_body) ;
 
 instruction_body 
-	: NEWLINE! INDENT! (instruction_stmt)+ DEDENT! ;
+	: NEWLINE! blank* INDENT! (instruction_stmt)+ DEDENT! ;
 
 instruction_stmt 
 	: prop
@@ -203,7 +203,7 @@ prop
 	| NAME COLON WS* p=prop_value NEWLINE -> ^(PROPERTY<PropertyNode>[$NAME,$p.tree]) ;
 
 property_body
-	: NEWLINE! INDENT! prop_value (NEWLINE! prop_value)* DEDENT! ;
+	: NEWLINE! blank* INDENT! prop_value (NEWLINE! prop_value)* DEDENT! ;
 
 prop_value
 	:	p=python -> ^(PYTHON<PythonNode>[$p.tree]);
